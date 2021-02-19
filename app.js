@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const axios = require("axios");
 
 const app = express();
 app.use(express.json());
@@ -12,8 +13,9 @@ app.use(
   })
 );
 app.use(bodyParser.urlencoded({ extended: true }));
-const axios = require("axios");
 
+//TODO
+//Refactor, add pagination, store all hololive yt channels
 const url = "https://youtube.com/channel/UCyl1z3jo3XHR1riLFKG5UAg/";
 const config = {
   headers: {
@@ -128,6 +130,7 @@ app.get("/hololive", async (req, res) => {
 //   //   });
 //   await browser.close();
 // })();
+
 app.listen(5000, () => {
   console.log("Server has started on port 5000");
 });
