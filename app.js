@@ -14,6 +14,8 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const vtubersList = ["UCyl1z3jo3XHR1riLFKG5UAg", "UCoSrY_IQQVpmIRZ9Xf-y93g"];
+
 //TODO
 //Refactor, add pagination, store all hololive yt channels
 const url = "https://youtube.com/channel/UCyl1z3jo3XHR1riLFKG5UAg/";
@@ -26,76 +28,88 @@ const config = {
 };
 
 app.get("/hololive", async (req, res) => {
+  let result = [];
   try {
-    let isLive = false;
-    let liveThumbnailUrl = null;
-    let liveTitle = null;
-    let liveLink = null;
-    let channelThumbnail = "";
-    let channelSubscribers = "";
-    let channelName = "";
-    let channelUrl = "";
-    let channelAvatar = "";
+    await Promise.all(
+      vtubersList.map(async (id) => {
+        console.log(id);
+        let isLive = false;
+        let liveThumbnailUrl = null;
+        let liveTitle = null;
+        let liveLink = null;
+        let channelThumbnail = "";
+        let channelSubscribers = "";
+        let channelName = "";
+        let channelUrl = "";
+        let channelAvatar = "";
 
-    const { data } = await axios.get(url, config);
+        const { data } = await axios.get(
+          `https://youtube.com/channel/${id}/`,
+          config
+        );
 
-    /* PARSING DATA */
-    const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-    const str = String(initialdata);
-    const finaldata = str.match(/{(.*}]}}})/gm);
-    const parsed = JSON.parse(finaldata);
+        /* PARSING DATA */
+        const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
+        const str = String(initialdata);
+        const finaldata = str.match(/{(.*}]}}})/gm);
+        const parsed = JSON.parse(finaldata);
 
-    //fs.writeFileSync("kek2.json", finaldata);
-    // console.log(data[1].response.metadata.channelMetadataRenderer);
-    // fs.writeFileSync(
-    //   "test.txt",
-    //   parsed.responseContext.serviceTrackingParams[0].service
-    // );
-    // fs.writeFileSync("test.html", data);
+        //fs.writeFileSync("kek2.json", finaldata);
+        // console.log(data[1].response.metadata.channelMetadataRenderer);
+        // fs.writeFileSync(
+        //   "test.txt",
+        //   parsed.responseContext.serviceTrackingParams[0].service
+        // );
+        // fs.writeFileSync("test.html", data);
 
-    /* GET CHANNEL CONTENT(might need error handling) */
-    const channelContent = parsed.header.c4TabbedHeaderRenderer;
-    channelName = channelContent.title;
-    channelUrl = `https://www.youtube.com/${channelContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
-    channelAvatar = channelContent.avatar.thumbnails[2].url;
-    channelThumbnail = channelContent.banner.thumbnails[1].url;
-    channelSubscribers = channelContent.subscriberCountText.simpleText;
+        /* GET CHANNEL CONTENT(might need error handling) */
+        const channelContent = parsed.header.c4TabbedHeaderRenderer;
+        channelName = channelContent.title;
+        channelUrl = `https://www.youtube.com/${channelContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
+        channelAvatar = channelContent.avatar.thumbnails[2].url;
+        channelThumbnail = channelContent.banner.thumbnails[1].url;
+        channelSubscribers = channelContent.subscriberCountText.simpleText;
 
-    /* GET LIVESTREAM DATA */
-    const channelLive =
-      parsed.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
-        .sectionListRenderer.contents[0].itemSectionRenderer.contents[0]
-        .channelFeaturedContentRenderer;
-    if (channelLive !== undefined) {
-      //channel is live
-      isLive = true;
-      const liveVideoContent = channelLive.items[0].videoRenderer;
-      liveThumbnailUrl = liveVideoContent.thumbnail.thumbnails[3].url;
-      liveTitle = liveVideoContent.title.runs[0].text;
-      liveLink = `https://www.youtube.com/${liveVideoContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
-    }
-    // console.log({
-    //   name: channelName,
-    //   link: channelUrl,
-    //   avatar: channelAvatar,
-    //   thumbnail: channelThumbnail,
-    //   subscibers: channelSubscribers,
-    //   live: isLive,
-    //   liveVideoUrl: liveThumbnailUrl,
-    //   liveVideoTitle: liveTitle,
-    //   liveVideoLink: liveLink,
-    // });
-    return res.send({
-      name: channelName,
-      link: channelUrl,
-      avatar: channelAvatar,
-      thumbnail: channelThumbnail,
-      subscibers: channelSubscribers,
-      live: isLive,
-      liveVideoUrl: liveThumbnailUrl,
-      liveVideoTitle: liveTitle,
-      liveVideoLink: liveLink,
-    });
+        /* GET LIVESTREAM DATA */
+        const channelLive =
+          parsed.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer
+            .content.sectionListRenderer.contents[0].itemSectionRenderer
+            .contents[0].channelFeaturedContentRenderer;
+        if (channelLive !== undefined) {
+          //channel is live
+          isLive = true;
+          const liveVideoContent = channelLive.items[0].videoRenderer;
+          liveThumbnailUrl = liveVideoContent.thumbnail.thumbnails[3].url;
+          liveTitle = liveVideoContent.title.runs[0].text;
+          liveLink = `https://www.youtube.com/${liveVideoContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
+        }
+        const all = {
+          name: channelName,
+          link: channelUrl,
+          avatar: channelAvatar,
+          thumbnail: channelThumbnail,
+          subscibers: channelSubscribers,
+          live: isLive,
+          liveVideoUrl: liveThumbnailUrl,
+          liveVideoTitle: liveTitle,
+          liveVideoLink: liveLink,
+        };
+        // console.log({
+        //   name: channelName,
+        //   link: channelUrl,
+        //   avatar: channelAvatar,
+        //   thumbnail: channelThumbnail,
+        //   subscibers: channelSubscribers,
+        //   live: isLive,
+        //   liveVideoUrl: liveThumbnailUrl,
+        //   liveVideoTitle: liveTitle,
+        //   liveVideoLink: liveLink,
+        // });
+        result.unshift(all);
+      })
+    );
+    console.log(result);
+    return res.send(result);
   } catch (err) {
     console.log(err);
     return res.status(500).send({ message: "something went wrong" });
