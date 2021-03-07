@@ -27,8 +27,6 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//TODO
-//Refactor, add pagination, store all hololive yt channels
 const url = "https://youtube.com/channel/UCyl1z3jo3XHR1riLFKG5UAg/";
 const config = {
   headers: {
@@ -125,14 +123,6 @@ app.get("/hololive", async (req, res) => {
         const finaldata = str.match(/{(.*}]}}})/gm);
         const parsed = JSON.parse(finaldata);
 
-        //fs.writeFileSync("kek2.json", finaldata);
-        // console.log(data[1].response.metadata.channelMetadataRenderer);
-        // fs.writeFileSync(
-        //   "test.txt",
-        //   parsed.responseContext.serviceTrackingParams[0].service
-        // );
-        // fs.writeFileSync("test.html", data);
-
         /* GET CHANNEL CONTENT(might need error handling) */
         const channelContent = parsed.header.c4TabbedHeaderRenderer;
         channelName = channelContent.title;
@@ -148,8 +138,9 @@ app.get("/hololive", async (req, res) => {
           parsed.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer
             .content.sectionListRenderer.contents[0].itemSectionRenderer
             .contents[0].channelFeaturedContentRenderer;
+
+        /* CHECK IF CHANNEL IS LIVE*/
         if (channelLive !== undefined) {
-          //channel is live
           isLive = true;
           const liveVideoContent = channelLive.items[0].videoRenderer;
           liveThumbnailUrl = liveVideoContent.thumbnail.thumbnails[3].url;
@@ -193,3 +184,11 @@ app.get("/hololive", async (req, res) => {
 app.listen(5000, () => {
   console.log("Server has started on port 5000");
 });
+
+//fs.writeFileSync("kek2.json", finaldata);
+// console.log(data[1].response.metadata.channelMetadataRenderer);
+// fs.writeFileSync(
+//   "test.txt",
+//   parsed.responseContext.serviceTrackingParams[0].service
+// );
+// fs.writeFileSync("test.html", data);
