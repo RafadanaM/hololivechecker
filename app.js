@@ -2,19 +2,30 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios");
+const {
+  enFirstGen,
+  jpZeroGen,
+  jpFirstGen,
+  jpSecondGen,
+  jpGamers,
+  jpThirdGen,
+  jpFourthGen,
+  jpFifthGen,
+  idFirstGen,
+  idSecondGen,
+  allGen,
+} = require("./allVtubers");
 
 const app = express();
 app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000", //change if you want to deploy
-    methods: ["GET", "POST"],
+    methods: ["GET"],
     credentials: true,
   })
 );
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const vtubersList = ["UCyl1z3jo3XHR1riLFKG5UAg", "UCoSrY_IQQVpmIRZ9Xf-y93g"];
 
 //TODO
 //Refactor, add pagination, store all hololive yt channels
@@ -28,10 +39,70 @@ const config = {
 };
 
 app.get("/hololive", async (req, res) => {
-  let result = [];
   try {
-    await Promise.all(
-      vtubersList.map(async (id) => {
+    console.log(allGen);
+    let vtuberResult = [];
+    const { page, gen } = req.query;
+    const limit = 5;
+
+    /* NEED TO REFACTOR TO EXTERNAL FUNCTION */
+    switch (gen) {
+      case "enfirst":
+        vtuberResult.push(...enFirstGen);
+        break;
+
+      case "jpzero":
+        vtuberResult.push(...jpZeroGen);
+        break;
+
+      case "jpfirst":
+        vtuberResult.push(...jpFirstGen);
+        break;
+
+      case "jpsecond":
+        vtuberResult.push(...jpSecondGen);
+        break;
+
+      case "jpthird":
+        vtuberResult.push(...jpThirdGen);
+        break;
+
+      case "jpfourth":
+        vtuberResult.push(...jpFourthGen);
+        break;
+
+      case "jpfifth":
+        vtuberResult.push(...jpFifthGen);
+        break;
+
+      case "jpgamers":
+        vtuberResult.push(...jpGamers);
+        break;
+
+      case "idfirst":
+        vtuberResult.push(...idFirstGen);
+        break;
+
+      case "idsecond":
+        vtuberResult.push(...idSecondGen);
+        break;
+
+      case "all":
+        if (typeof page != "number") {
+          return res.status(400).send({ message: "Bad Request" });
+        }
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        //const vtuberResult = vtubersList.slice(startIndex, endIndex);
+        vtuberResult.push(...allGen.slice(startIndex, endIndex));
+        break;
+
+      default:
+        return res.status(400).send({ message: "Bad Request" });
+    }
+    //console.log(vtuberResult);
+    const result = await Promise.all(
+      vtuberResult.map(async (id) => {
         console.log(id);
         let isLive = false;
         let liveThumbnailUrl = null;
@@ -67,7 +138,9 @@ app.get("/hololive", async (req, res) => {
         channelName = channelContent.title;
         channelUrl = `https://www.youtube.com/${channelContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
         channelAvatar = channelContent.avatar.thumbnails[2].url;
-        channelThumbnail = channelContent.banner.thumbnails[1].url;
+        if (channelContent.banner != undefined) {
+          channelThumbnail = channelContent.banner.thumbnails[1].url;
+        }
         channelSubscribers = channelContent.subscriberCountText.simpleText;
 
         /* GET LIVESTREAM DATA */
@@ -105,45 +178,17 @@ app.get("/hololive", async (req, res) => {
         //   liveVideoTitle: liveTitle,
         //   liveVideoLink: liveLink,
         // });
-        result.unshift(all);
+        return all;
+        //console.log(result);
       })
     );
-    console.log(result);
+
     return res.send(result);
   } catch (err) {
     console.log(err);
     return res.status(500).send({ message: "something went wrong" });
   }
 });
-
-//scrape();
-
-// (async () => {
-//   const browser = await puppeteer.launch();
-//   const page = await browser.newPage();
-//   // await page.setViewport({ width: 1280, height: 800 });
-//   await page.goto(url, { waitUntil: "networkidle2" }).then(async () => {
-//     const data = await page.content();
-//     $.load(data);
-//     console.log($("#text-container"));
-//     //console.log($("img[id=img]").html());
-//     // if (data.search(`{"text":" watching"}`) > -1) {
-//     //   console.log("LIVE!");
-//     // } else {
-//     //   console.log("Not Live");
-//     // }
-//   });
-
-//   // page
-//   //   .waitForSelector("span[text=LIVE]")
-//   //   .then(() => {
-//   //     console.log("found");
-//   //   })
-//   //   .catch((err) => {
-//   //     console.log(err);
-//   //   });
-//   await browser.close();
-// })();
 
 app.listen(5000, () => {
   console.log("Server has started on port 5000");
