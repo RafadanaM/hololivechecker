@@ -38,11 +38,10 @@ const config = {
 
 app.get("/hololive", async (req, res) => {
   try {
-    console.log(allGen);
     let vtuberResult = [];
     const { page, gen } = req.query;
     const limit = 5;
-
+    console.log(typeof page);
     /* NEED TO REFACTOR TO EXTERNAL FUNCTION */
     switch (gen) {
       case "enfirst":
@@ -86,7 +85,7 @@ app.get("/hololive", async (req, res) => {
         break;
 
       case "all":
-        if (typeof page != "number") {
+        if (isNaN(page)) {
           return res.status(400).send({ message: "Bad Request" });
         }
         const startIndex = (page - 1) * limit;
