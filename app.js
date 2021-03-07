@@ -41,7 +41,7 @@ app.get("/hololive", async (req, res) => {
     let vtuberResult = [];
     const { page, gen } = req.query;
     const limit = 5;
-    console.log(typeof page);
+
     /* NEED TO REFACTOR TO EXTERNAL FUNCTION */
     switch (gen) {
       case "enfirst":
@@ -100,7 +100,7 @@ app.get("/hololive", async (req, res) => {
     //console.log(vtuberResult);
     const result = await Promise.all(
       vtuberResult.map(async (id) => {
-        console.log(id);
+        //console.log(id);
         let isLive = false;
         let liveThumbnailUrl = null;
         let liveTitle = null;
