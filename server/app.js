@@ -41,7 +41,7 @@ const config = {
   },
 };
 
-app.get("/hololive", async (req, res) => {
+app.get("/api/hololive", async (req, res) => {
   try {
     let vtuberResult = [];
     const { page, gen } = req.query;
