@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
 const PORT = process.env.PORT || 5000;
+const SELF = process.env.SELF || "http://localhost:5000";
 console.log(ORIGIN);
 const {
   enFirstGen,
