@@ -10,10 +10,10 @@ const genList = {
   "JP 0th Gen": "jpzero",
   "JP 1st Gen": "jpfirst",
   "JP 2nd Gen": "jpsecond",
+  "JP Gamers": "jpgamers",
   "JP 3rd Gen": "jpthird",
   "JP 4th Gen": "jpfourth",
   "JP 5th Gen": "jpfifth",
-  "JP Gamers": "jpgamers",
   "ID 1st Gen": "idfirst",
   "ID 2nd Gen": "idsecond",
 };
