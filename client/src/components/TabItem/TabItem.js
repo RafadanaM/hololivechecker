@@ -1,6 +1,8 @@
 import { CircularProgress } from "@material-ui/core";
 import { React, useState, useEffect, useCallback } from "react";
 import axios from "../../axios/config";
+import ProfileCard from "../Card/ProfileCard";
+import classes from "./TabItem.module.css";
 
 const TabItem = (props) => {
   const [data, setData] = useState([]);
@@ -19,11 +21,13 @@ const TabItem = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        alert("An Error Has Occured");
+        return [];
       });
   }, [props.value]);
 
   useEffect(() => {
-    /* add unmounted thingy to avoid useEffect mount error
+    /* add unmounted thingy to avoid useEffect memory leak
     src: https://stackoverflow.com/questions/58038008/how-to-stop-memory-leak-in-useeffect-hook-react
     */
     let unmounted = false;
@@ -32,26 +36,26 @@ const TabItem = (props) => {
         setData(data);
       }
     });
+
     return () => {
       unmounted = true;
     };
   }, [getHololive, props.value]);
 
   return (
-    <div>
+    <div className={classes.tabFlex}>
       {data.length === 0 ? (
-        <center>
-          <CircularProgress />
-        </center>
+        <CircularProgress />
       ) : (
         data.map((item, id) => {
           return (
-            <div key={id}>
-              <img src={item.avatar} alt={`avatar-${id}`} />
-              <p>{item.avatar}</p>
-              <p>{item.name}</p>
-              <p>{item.live ? "Live" : "Not Live"}</p>
-            </div>
+            <ProfileCard key={id} data={item} />
+            // <div key={id}>
+            //   <img src={item.avatar} alt={`avatar-${id}`} />
+
+            //   <p>{item.name}</p>
+            //   <p>{item.live ? "Live" : "Not Live"}</p>
+            // </div>
           );
         })
       )}

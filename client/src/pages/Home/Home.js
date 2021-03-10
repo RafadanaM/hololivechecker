@@ -30,7 +30,7 @@ function TabPanel(props) {
       {...other}
       className={classes.tabContent}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box className={classes.box}>{children}</Box>}
     </div>
   );
 }
@@ -47,9 +47,10 @@ const StyledTabs = withStyles({
   },
 })((props) => (
   <Tabs
-    {...props}
+    centered
     variant="scrollable"
     scrollButtons="auto"
+    {...props}
     TabIndicatorProps={{ children: <span /> }}
   />
 ));
@@ -62,7 +63,7 @@ const StyledTab = withStyles((theme) => ({
     // borderStyle: "solid",
     // borderWidth: "0px 1px",
     fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(32),
+    fontSize: theme.typography.pxToRem(28),
     marginRight: theme.spacing(1),
     "&:focus": {
       backgroundColor: "#D3D3D3",
@@ -94,6 +95,7 @@ const Home = () => {
           <StyledTab label="JP 0th Gen" />
           <StyledTab label="JP 1st Gen" /> */}
         </StyledTabs>
+
         {Object.entries(genList).map(([k, v], idx) => {
           return (
             <TabPanel value={page} index={idx} key={k}>

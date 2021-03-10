@@ -103,6 +103,7 @@ app.get("/api/hololive", async (req, res) => {
         return res.status(400).send({ message: "Bad Request" });
     }
     //console.log(vtuberResult);
+
     const result = await Promise.all(
       vtuberResult.map(async (id) => {
         //console.log(id);
@@ -156,11 +157,12 @@ app.get("/api/hololive", async (req, res) => {
           link: channelUrl,
           avatar: channelAvatar,
           thumbnail: channelThumbnail,
-          subscibers: channelSubscribers,
+          subscribers: channelSubscribers.split(" ")[0],
           live: isLive,
-          liveVideoUrl: liveThumbnailUrl,
+          liveVideoThumbnail: liveThumbnailUrl,
           liveVideoTitle: liveTitle,
-          liveVideoLink: liveLink,
+          liveVideoUrl: liveLink,
+          subscribeLink: `https://www.youtube.com/channel/${id}?sub_confirmation=1`,
         };
         // console.log({
         //   name: channelName,

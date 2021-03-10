@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import classes from "./Navbar.module.css";
 
 const Navbar = () => {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarContainer}>
-        <Link to="/" className={classes.navLinks}>
-          Hololive Live Checker
-        </Link>
+        <ul
+          className={classes.navLinks}
+          onClick={() => window.location.reload()}
+        >
+          <li> Hololive Live Checker</li>
+        </ul>
       </div>
     </nav>
   );
