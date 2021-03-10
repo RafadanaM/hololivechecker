@@ -43,7 +43,7 @@ const config = {
 };
 
 app.get("/", (req, res) => {
-  res.send("connected");
+  return res.send("connected");
 });
 
 app.get("/api/hololive", async (req, res) => {
