@@ -1,0 +1,31 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy backend/server
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME_SERVER}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+        env:
+          HD_APP_BASE: "server/"
+          HD_ORIGIN: "https://hololivechecker.herokuapp.com"
+          HD_SELF: "https://hololivelive-api.herokuapp.com"
+      - name: Deploy frontend/client
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME_CLIENT}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+        env:
+          HD_APP_BASE: "client/"
+          HD_APP_BASE_URL: "https://hololivelive-api.herokuapp.com/api"
