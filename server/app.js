@@ -25,7 +25,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ORIGIN, //change if you want to deploy
+    origin: [ORIGIN, SELF], //change if you want to deploy
     methods: ["GET"],
     credentials: true,
   })
