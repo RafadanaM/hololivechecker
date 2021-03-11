@@ -11,21 +11,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy backend/server
+        working-directory: ./server
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME_SERVER}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
         env:
-          HD_APP_BASE: "server/"
-          HD_ORIGIN: "https://hololivechecker.herokuapp.com"
+          HD_ORIGIN: "https://hololivechecker.netlify.app"
           HD_SELF: "https://hololivelive-api.herokuapp.com"
-      - name: Deploy frontend/client
-        uses: akhileshns/heroku-deploy@v3.12.12
+      - name: Use Node.js 12.x
+        working-directory: ./client
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME_CLIENT}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          node-version: 12.x
+      - run: npm install
+      - run: npm run build --if-present
+
+      - name: Deploy fe/client to netlify
+        working-directory: ./client
         env:
-          HD_APP_BASE: "client/"
-          HD_APP_BASE_URL: "https://hololivelive-api.herokuapp.com/api"
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.DEV_NETLIFY_SITE_ID }}
+          REACT_APP_BASE_URL: "https://hololivelive-api.herokuapp.com/api"
+        with:
+          args: deploy --dir=build --prod
+          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
