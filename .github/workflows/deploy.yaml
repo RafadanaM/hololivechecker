@@ -6,12 +6,14 @@ on:
       - master
 
 jobs:
-  build:
+  buildBackEnd:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
       - uses: actions/checkout@v2
       - name: Deploy backend/server
-        working-directory: ./server
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -20,8 +22,15 @@ jobs:
         env:
           HD_ORIGIN: "https://hololivechecker.netlify.app"
           HD_SELF: "https://hololivelive-api.herokuapp.com"
-      - name: Use Node.js 12.x
+
+  buildFrontEnd:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
         working-directory: ./client
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
         with:
           node-version: 12.x
       - run: npm install
@@ -29,7 +38,7 @@ jobs:
 
       - name: Deploy fe/client to netlify
         uses: netlify/actions/cli@master
-        working-directory: ./client
+        working-directory: client
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.DEV_NETLIFY_SITE_ID }}
