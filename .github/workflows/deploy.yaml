@@ -12,7 +12,8 @@ jobs:
       run:
         working-directory: ./server
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout source code
+        uses: actions/checkout@v3
       - name: Deploy backend/server
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
@@ -29,7 +30,8 @@ jobs:
       run:
         working-directory: ./client
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout source code
+        uses: actions/checkout@v3
       - name: Use Node.js 12.x
         with:
           node-version: 12.x
