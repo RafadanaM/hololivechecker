@@ -19,5 +19,5 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
         env:
           HD_ORIGIN: "https://hololivechecker.netlify.app"
-          HD_SELF: "https://hololivelive-api.herokuapp.com"
+          HD_ORIGIN2: "https://hololivechecker.devs.id"
           HD_APP_BASE: "/server"
