@@ -18,6 +18,6 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME_SERVER}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
         env:
-          HD_ORIGIN: "https://hololivechecker.netlify.app/"
+          HD_ORIGIN: "https://hololivechecker.netlify.app"
           HD_SELF: "https://hololivelive-api.herokuapp.com"
           HD_APP_BASE: "/server"
