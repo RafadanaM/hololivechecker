@@ -6,6 +6,7 @@ import classes from "./TabItem.module.css";
 
 const TabItem = (props) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   /*
   avoid linter dependency 
@@ -17,6 +18,7 @@ const TabItem = (props) => {
       .get(`/hololive?gen=${props.value}`)
       .then(({ data }) => {
         console.log(data);
+        setIsLoading(false);
         return data;
       })
       .catch((err) => {
@@ -44,8 +46,10 @@ const TabItem = (props) => {
 
   return (
     <div className={classes.tabFlex}>
-      {data.length === 0 ? (
+      {isLoading ? (
         <CircularProgress />
+      ) : data.length === 0 ? (
+        <h2>No one is Streaming right now Sadge</h2>
       ) : (
         data.map((item, id) => {
           return (
