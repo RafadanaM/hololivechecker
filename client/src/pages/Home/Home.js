@@ -6,6 +6,7 @@ import classes from "./Home.module.css";
 import TabItem from "../../components/TabItem/TabItem";
 
 const genList = {
+  "All Gen": "all",
   "EN 1st Gen": "enfirst",
   "JP 0th Gen": "jpzero",
   "JP 1st Gen": "jpfirst",
