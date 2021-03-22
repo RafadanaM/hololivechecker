@@ -17,7 +17,6 @@ const TabItem = (props) => {
     return axios
       .get(`/hololive?gen=${props.value}`)
       .then(({ data }) => {
-        console.log(data);
         setIsLoading(false);
         return data;
       })

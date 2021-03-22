@@ -48,7 +48,6 @@ const StyledTabs = withStyles({
   },
 })((props) => (
   <Tabs
-    centered
     variant="scrollable"
     scrollButtons="auto"
     {...props}
@@ -60,9 +59,7 @@ const StyledTab = withStyles((theme) => ({
   root: {
     textTransform: "none",
     color: "#979797",
-    // borderColor: "black",
-    // borderStyle: "solid",
-    // borderWidth: "0px 1px",
+
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(28),
     marginRight: theme.spacing(1),
@@ -81,37 +78,25 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <div className={classes.tabsContainer}>
-        <StyledTabs
-          value={page}
-          onChange={handlePageChange}
-          aria-label="hololive tabs"
-          className={classes.tabs}
-        >
-          {Object.entries(genList).map(([k, v]) => {
-            return <StyledTab key={k} label={k} />;
-          })}
-          {/* <StyledTab label="EN 1st Gen" />
-          <StyledTab label="JP 0th Gen" />
-          <StyledTab label="JP 1st Gen" /> */}
-        </StyledTabs>
-
-        {Object.entries(genList).map(([k, v], idx) => {
-          return (
-            <TabPanel value={page} index={idx} key={k}>
-              <TabItem value={v} />
-            </TabPanel>
-          );
+    <div className={classes.tabsContainer}>
+      <StyledTabs
+        value={page}
+        onChange={handlePageChange}
+        aria-label="hololive tabs"
+        className={classes.tabs}
+      >
+        {Object.entries(genList).map(([k, v]) => {
+          return <StyledTab key={k} label={k} />;
         })}
+      </StyledTabs>
 
-        {/* <TabPanel value={page} index={1}>
-          <TabItem value={1} />
-        </TabPanel>
-        <TabPanel value={page} index={2}>
-          <TabItem value={2} />
-        </TabPanel> */}
-      </div>
+      {Object.entries(genList).map(([k, v], idx) => {
+        return (
+          <TabPanel value={page} index={idx} key={k}>
+            <TabItem value={v} />
+          </TabPanel>
+        );
+      })}
     </div>
   );
 };
