@@ -1,23 +1,11 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { Tabs, Tab } from "@material-ui/core";
 import classes from "./Home.module.css";
 import TabItem from "../../components/TabItem/TabItem";
-
-const genList = {
-  "Currently Live": "all",
-  "EN 1st Gen": "enfirst",
-  "JP 0th Gen": "jpzero",
-  "JP 1st Gen": "jpfirst",
-  "JP 2nd Gen": "jpsecond",
-  "JP Gamers": "jpgamers",
-  "JP 3rd Gen": "jpthird",
-  "JP 4th Gen": "jpfourth",
-  "JP 5th Gen": "jpfifth",
-  "ID 1st Gen": "idfirst",
-  "ID 2nd Gen": "idsecond",
-};
+import { CircularProgress } from "@material-ui/core";
+import axios from "../../axios/config";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,10 +60,29 @@ const StyledTab = withStyles((theme) => ({
 
 const Home = () => {
   const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handlePageChange = (e, newValue) => {
     setPage(newValue);
   };
+
+  useEffect(() => {
+    axios
+      .get(`/hololive`)
+      .then(({ data }) => {
+        console.log(data);
+        setData(data);
+        setLoading(false);
+        // const mantap = [...data];
+        // console.log(typeof mantap);
+        // console.log(data.flatMap((x) => x.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("An Error Has Occured");
+      });
+  }, []);
 
   return (
     <div className={classes.tabsContainer}>
@@ -85,18 +92,32 @@ const Home = () => {
         aria-label="hololive tabs"
         className={classes.tabs}
       >
-        {Object.entries(genList).map(([k, v]) => {
-          return <StyledTab key={k} label={k} />;
-        })}
+        {!loading
+          ? [
+              <StyledTab key={"currentlyLive"} label={"Currently Live"} />,
+              data.map((detail) => (
+                <StyledTab key={detail.gen} label={detail.gen} />
+              )),
+            ]
+          : null}
       </StyledTabs>
 
-      {Object.entries(genList).map(([k, v], idx) => {
-        return (
-          <TabPanel value={page} index={idx} key={k}>
-            <TabItem value={v} />
-          </TabPanel>
-        );
-      })}
+      {!loading ? (
+        [
+          <TabPanel value={page} index={0} key={"currentlyLive"}>
+            <TabItem
+              value={data.flatMap((x) => x.data).filter((x) => x.live)}
+            />
+          </TabPanel>,
+          data.map((detail, idx) => (
+            <TabPanel value={page} index={idx + 1} key={detail.gen}>
+              <TabItem value={detail.data} />
+            </TabPanel>
+          )),
+        ]
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 };

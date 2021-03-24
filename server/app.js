@@ -20,6 +20,7 @@ const {
   idFirstGen,
   idSecondGen,
   allGen,
+  allGenOld,
 } = require("./allVtubers");
 
 const { getChannelData } = require("./functions");
@@ -48,7 +49,7 @@ app.get("/", (req, res) => {
   return res.send("connected");
 });
 
-app.get("/api/hololive", async (req, res) => {
+app.get("/api/v1/hololive", async (req, res) => {
   try {
     let vtuberResult = [];
     const { page, gen } = req.query;
@@ -107,7 +108,7 @@ app.get("/api/hololive", async (req, res) => {
         // const vtuberResult = vtubersList.slice(startIndex, endIndex);
         // vtuberResult.push(...allGen.slice(startIndex, endIndex));
         liveOnly = true;
-        vtuberResult.push(...allGen);
+        vtuberResult.push(...allGenOld);
         break;
 
       default:
@@ -140,31 +141,38 @@ app.get("/api/hololive", async (req, res) => {
   }
 });
 
-app.get("/api/live", async (req, res) => {
+app.get("/api/v2/hololive", async (req, res) => {
   try {
     const result = await Promise.all(
-      allGen.map(async (id) => {
+      Object.keys(allGen).map(async (gen) => {
         try {
-          const { data } = await axios.get(
-            `https://youtube.com/channel/${id}/`,
-            config
-          );
+          return {
+            gen: gen,
+            data: await Promise.all(
+              allGen[gen].map(async (id) => {
+                const { data } = await axios.get(
+                  `https://youtube.com/channel/${id}/`,
+                  config
+                );
 
-          /* PARSING DATA */
-          const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-          const str = String(initialdata);
-          const finaldata = str.match(/{(.*}]}}})/gm);
-          const parsed = JSON.parse(finaldata);
-
-          return getChannelData(parsed, id, true);
+                /* PARSING DATA */
+                const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
+                const str = String(initialdata);
+                const finaldata = str.match(/{(.*}]}}})/gm);
+                const parsed = JSON.parse(finaldata);
+                return getChannelData(parsed, id);
+              })
+            ),
+          };
         } catch (error) {
           console.log(error);
         }
       })
     );
-    return res.send(result.filter((x) => x));
+
+    return res.send(result);
   } catch (error) {
-    console.log(err);
+    console.log(errzz);
     return res.status(500).send({ message: "something went wrong" });
   }
 });

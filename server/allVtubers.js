@@ -72,7 +72,7 @@ const idSecondGen = [
   "UChgTyjG-pdNvxxhdsXfHQ5Q",
 ];
 
-const allGen = [
+const allGenOld = {
   ...enFirstGen,
   ...jpZeroGen,
   ...jpFirstGen,
@@ -83,7 +83,20 @@ const allGen = [
   ...jpFifthGen,
   ...idFirstGen,
   ...idSecondGen,
-];
+};
+
+const allGen = {
+  ["EN 1st Gen"]: [...enFirstGen],
+  ["JP 0th Gen"]: [...jpZeroGen],
+  ["JP 1st Gen"]: [...jpFirstGen],
+  ["JP 2nd Gen"]: [...jpSecondGen],
+  ["JP Gamers"]: [...jpGamers],
+  ["JP 3rd Gen"]: [...jpThirdGen],
+  ["JP 4th Gen"]: [...jpFourthGen],
+  ["JP 5th Gen"]: [...jpFifthGen],
+  ["ID 1st Gen"]: [...idFirstGen],
+  ["ID 2nd Gen"]: [...idSecondGen],
+};
 
 module.exports = {
   enFirstGen,
@@ -97,4 +110,5 @@ module.exports = {
   idFirstGen,
   idSecondGen,
   allGen,
+  allGenOld,
 };
