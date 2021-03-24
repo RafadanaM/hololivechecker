@@ -1,5 +1,7 @@
 import React from "react";
 import classes from "./Footer.module.css";
+import github from "../../images/github.png";
+import email from "../../images/email.png";
 
 const Footer = () => {
   return (
@@ -7,11 +9,11 @@ const Footer = () => {
       <ul className={classes.ulContainer}>
         <li>
           <a
-            href="https://github.com/RafadanaM"
+            href="https://github.com/RafadanaM/hololivechecker"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Made By: RafadanaM
+            <img src={github} alt="github" />
           </a>
         </li>
         <li>
@@ -20,7 +22,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Email me!
+            <img src={email} alt="email" />
           </a>
         </li>
       </ul>
