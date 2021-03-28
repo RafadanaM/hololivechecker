@@ -71,12 +71,8 @@ const Home = () => {
     axios
       .get(`/hololive`)
       .then(({ data }) => {
-        console.log(data);
         setData(data);
         setLoading(false);
-        // const mantap = [...data];
-        // console.log(typeof mantap);
-        // console.log(data.flatMap((x) => x.data));
       })
       .catch((err) => {
         console.log(err);

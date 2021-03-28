@@ -8,8 +8,10 @@ const getChannelData = (parsed, id, onlyLive = false) => {
   let channelName = "";
   let channelUrl = "";
   let channelAvatar = "";
+  let watching = "";
 
   /* GET LIVESTREAM DATA */
+
   const channelLive =
     parsed.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content
       .sectionListRenderer.contents[0].itemSectionRenderer.contents[0]
@@ -22,6 +24,7 @@ const getChannelData = (parsed, id, onlyLive = false) => {
     liveThumbnailUrl = liveVideoContent.thumbnail.thumbnails[3].url;
     liveTitle = liveVideoContent.title.runs[0].text;
     liveLink = `https://www.youtube.com/${liveVideoContent.navigationEndpoint.commandMetadata.webCommandMetadata.url}`;
+    watching = liveVideoContent.viewCountText.runs[0].text;
   } else if (onlyLive) {
     return null;
   }
@@ -46,6 +49,7 @@ const getChannelData = (parsed, id, onlyLive = false) => {
     liveVideoThumbnail: liveThumbnailUrl,
     liveVideoTitle: liveTitle,
     liveVideoUrl: liveLink,
+    watching: watching,
     subscribeLink: `https://www.youtube.com/channel/${id}?sub_confirmation=1`,
   };
   // console.log({

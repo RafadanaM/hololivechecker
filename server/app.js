@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const dotenv = require("dotenv");
+const fs = require("fs");
 dotenv.config();
 const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
 const PORT = process.env.PORT || 5000;
@@ -122,10 +123,9 @@ app.get("/api/v1/hololive", async (req, res) => {
             config
           );
 
-          /* PARSING DATA */
-          const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-          const str = String(initialdata);
-          const finaldata = str.match(/{(.*}]}}})/gm);
+          /* PARSING DATA V2*/
+          const regex = /ytInitialData = ({.*}]}}});/gm;
+          const finaldata = regex.exec(data)[1];
           const parsed = JSON.parse(finaldata);
 
           return getChannelData(parsed, id, liveOnly);
@@ -143,6 +143,7 @@ app.get("/api/v1/hololive", async (req, res) => {
 
 app.get("/api/v2/hololive", async (req, res) => {
   try {
+    console.time("test");
     const result = await Promise.all(
       Object.keys(allGen).map(async (gen) => {
         try {
@@ -156,10 +157,16 @@ app.get("/api/v2/hololive", async (req, res) => {
                 );
 
                 /* PARSING DATA */
-                const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-                const str = String(initialdata);
-                const finaldata = str.match(/{(.*}]}}})/gm);
+                // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
+                // const str = String(initialdata);
+                // const finaldata = str.match(/{(.*}]}}})/gm);
+                // const parsed = JSON.parse(finaldata);
+
+                /* PARSING DATA V2*/
+                const regex = /ytInitialData = ({.*}]}}});/gm;
+                const finaldata = regex.exec(data)[1];
                 const parsed = JSON.parse(finaldata);
+
                 return getChannelData(parsed, id);
               })
             ),
@@ -169,10 +176,32 @@ app.get("/api/v2/hololive", async (req, res) => {
         }
       })
     );
-
+    console.timeEnd("test");
     return res.send(result);
   } catch (error) {
     console.log(errzz);
+    return res.status(500).send({ message: "something went wrong" });
+  }
+});
+
+app.get("/api/v2/test", async (req, res) => {
+  try {
+    const { id } = req.query;
+    const { data } = await axios.get(
+      `https://youtube.com/channel/${id}/`,
+      config
+    );
+
+    /* PARSING DATA V2*/
+    const regex = /ytInitialData = ({.*}]}}});/gm;
+    const finaldata = regex.exec(data)[1];
+    const parsed = JSON.parse(finaldata);
+
+    result = getChannelData(parsed, id);
+
+    return res.send(result);
+  } catch (error) {
+    console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 });
