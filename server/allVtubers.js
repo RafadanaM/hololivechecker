@@ -31,7 +31,7 @@ const jpSecondGen = [
 ];
 
 const jpGamers = [
-  // "UCdn5BQ06XqgXoAxIhbqw5Rg",
+  "UCdn5BQ06XqgXoAxIhbqw5Rg",
   "UCp-5t9SrOQwXMU7iIjQfARg",
   "UCvaTdHTWBGv3MKj3KVqJVCw",
   "UChAnqc_AY5_I3Px5dig3X1Q",

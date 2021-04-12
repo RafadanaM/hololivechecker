@@ -49,42 +49,42 @@ const config = {
 };
 
 // CRON
-cron.schedule("*/1 * * * *", async () => {
-  console.log("running cron job...");
-  const result = await Promise.all(
-    Object.keys(allGen).map(async (gen) => {
-      try {
-        await Promise.all(
-          allGen[gen].map(async (id) => {
-            try {
-              const { data } = await axios.get(
-                `https://youtube.com/channel/${id}/`,
-                config
-              );
+// cron.schedule("*/3 * * * *", async () => {
+//   console.log("running cron job...");
+//   const result = await Promise.all(
+//     Object.keys(allGen).map(async (gen) => {
+//       try {
+//         await Promise.all(
+//           allGen[gen].map(async (id) => {
+//             try {
+//               const { data } = await axios.get(
+//                 `https://youtube.com/channel/${id}/`,
+//                 config
+//               );
 
-              /* PARSING DATA */
-              // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-              // const str = String(initialdata);
-              // const finaldata = str.match(/{(.*}]}}})/gm);
-              // const parsed = JSON.parse(finaldata);
+//               /* PARSING DATA */
+//               // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
+//               // const str = String(initialdata);
+//               // const finaldata = str.match(/{(.*}]}}})/gm);
+//               // const parsed = JSON.parse(finaldata);
 
-              /* PARSING DATA V2*/
-              const regex = /ytInitialData = ({.*}]}}});/gm;
-              const finaldata = regex.exec(data)[1];
-              const parsed = JSON.parse(finaldata);
+//               /* PARSING DATA V2*/
+//               const regex = /ytInitialData = ({.*}]}}});/gm;
+//               const finaldata = regex.exec(data)[1];
+//               const parsed = JSON.parse(finaldata);
 
-              getChannelData(parsed, id);
-            } catch (error) {
-              console.log(error);
-            }
-          })
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    })
-  );
-});
+//               getChannelData(parsed, id);
+//             } catch (error) {
+//               console.log(error);
+//             }
+//           })
+//         );
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     })
+//   );
+// });
 
 app.get("/", (req, res) => {
   return res.send("connected");
