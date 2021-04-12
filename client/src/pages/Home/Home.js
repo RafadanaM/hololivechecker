@@ -91,8 +91,8 @@ const Home = () => {
         {!loading
           ? [
               <StyledTab key={"currentlyLive"} label={"Currently Live"} />,
-              data.map((detail) => (
-                <StyledTab key={detail.gen} label={detail.gen} />
+              Object.keys(data).map((gen) => (
+                <StyledTab key={gen} label={gen} />
               )),
             ]
           : null}
@@ -102,12 +102,14 @@ const Home = () => {
         [
           <TabPanel value={page} index={0} key={"currentlyLive"}>
             <TabItem
-              value={data.flatMap((x) => x.data).filter((x) => x.live)}
+              value={Object.values(data)
+                .flatMap((x) => x)
+                .filter((x) => x.live)}
             />
           </TabPanel>,
-          data.map((detail, idx) => (
-            <TabPanel value={page} index={idx + 1} key={detail.gen}>
-              <TabItem value={detail.data} />
+          Object.values(data).map((detail, idx) => (
+            <TabPanel value={page} index={idx + 1} key={idx}>
+              <TabItem value={detail} />
             </TabPanel>
           )),
         ]
