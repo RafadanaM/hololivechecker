@@ -9,10 +9,7 @@ const fs = require("fs");
 dotenv.config();
 const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
 const PORT = process.env.PORT || 5000;
-const ORIGIN2 = process.env.ORIGIN2 || "http://localhost:3001";
-console.log(ORIGIN);
 const { allGen } = require("./allVtubers");
-
 const { getChannelData } = require("./functions");
 const pool = require("./db");
 
@@ -20,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: [ORIGIN, ORIGIN2], //change if you want to deploy
+    origin: [ORIGIN], //change if you want to deploy
     methods: ["GET"],
     credentials: true,
   })

@@ -17,6 +17,7 @@ pool.on("error", (err, client) => {
 });
 
 (async () => {
+  console.log("running database");
   const client = await pool.connect();
   try {
     /* CREATE GENERATION TABLE */
