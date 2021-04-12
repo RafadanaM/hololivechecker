@@ -11,20 +11,7 @@ const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
 const PORT = process.env.PORT || 5000;
 const ORIGIN2 = process.env.ORIGIN2 || "http://localhost:3001";
 console.log(ORIGIN);
-const {
-  enFirstGen,
-  jpZeroGen,
-  jpFirstGen,
-  jpSecondGen,
-  jpGamers,
-  jpThirdGen,
-  jpFourthGen,
-  jpFifthGen,
-  idFirstGen,
-  idSecondGen,
-  allGen,
-  allGenOld,
-} = require("./allVtubers");
+const { allGen } = require("./allVtubers");
 
 const { getChannelData } = require("./functions");
 
@@ -49,42 +36,36 @@ const config = {
 };
 
 // CRON
-// cron.schedule("*/3 * * * *", async () => {
-//   console.log("running cron job...");
-//   const result = await Promise.all(
-//     Object.keys(allGen).map(async (gen) => {
-//       try {
-//         await Promise.all(
-//           allGen[gen].map(async (id) => {
-//             try {
-//               const { data } = await axios.get(
-//                 `https://youtube.com/channel/${id}/`,
-//                 config
-//               );
+cron.schedule("*/1 * * * *", async () => {
+  console.log("running cron job...");
+  const result = await Promise.all(
+    Object.keys(allGen).map(async (gen, idx) => {
+      try {
+        await Promise.all(
+          allGen[gen].map(async (id) => {
+            try {
+              const { data } = await axios.get(
+                `https://youtube.com/channel/${id}/`,
+                config
+              );
 
-//               /* PARSING DATA */
-//               // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-//               // const str = String(initialdata);
-//               // const finaldata = str.match(/{(.*}]}}})/gm);
-//               // const parsed = JSON.parse(finaldata);
+              /* PARSING DATA V2*/
+              const regex = /ytInitialData = ({.*}]}}});/gm;
+              const finaldata = regex.exec(data)[1];
+              const parsed = JSON.parse(finaldata);
 
-//               /* PARSING DATA V2*/
-//               const regex = /ytInitialData = ({.*}]}}});/gm;
-//               const finaldata = regex.exec(data)[1];
-//               const parsed = JSON.parse(finaldata);
-
-//               getChannelData(parsed, id);
-//             } catch (error) {
-//               console.log(error);
-//             }
-//           })
-//         );
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     })
-//   );
-// });
+              getChannelData(parsed, id, idx + 1);
+            } catch (error) {
+              console.log(error);
+            }
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    })
+  );
+});
 
 app.get("/", (req, res) => {
   return res.send("connected");
