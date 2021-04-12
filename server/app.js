@@ -71,7 +71,6 @@ app.get("/", (req, res) => {
 
 app.get("/api/v2/hololive", async (req, res) => {
   try {
-    console.time("test");
     const data = await pool.query(
       "SELECT * FROM CHANNEL AS C LEFT JOIN GENERATION AS G ON C.id_generation=G.id_generation ORDER BY C.id "
     );
