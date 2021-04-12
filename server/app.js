@@ -72,6 +72,85 @@ app.get("/", (req, res) => {
   return res.send("connected");
 });
 
+app.get("/api/v2/hololive", async (req, res) => {
+  try {
+    console.time("test");
+    const data = await pool.query(
+      "SELECT * FROM CHANNEL AS C LEFT JOIN GENERATION AS G ON C.id_generation=G.id_generation ORDER BY C.id "
+    );
+
+    /* Source = https://stackoverflow.com/questions/40774697/how-to-group-an-array-of-objects-by-key/40774759#40774759 */
+    let result = data.rows.reduce((r, a) => {
+      r[a.generation_name] = r[a.generation_name] || [];
+      r[a.generation_name].push(a);
+      return r;
+    }, Object.create(null));
+    return res.send(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: "something went wrong" });
+  }
+});
+
+app.listen(PORT, (error) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(`Server has started on port ${PORT}`);
+  }
+});
+
+//fs.writeFileSync("kek2.json", finaldata);
+// console.log(data[1].response.metadata.channelMetadataRenderer);
+// fs.writeFileSync(
+//   "test.txt",
+//   parsed.responseContext.serviceTrackingParams[0].service
+// );
+// fs.writeFileSync("test.html", data);
+
+// app.get("/api/v2/hololive", async (req, res) => {
+//   try {
+//     console.time("test");
+//     const result = await Promise.all(
+//       Object.keys(allGen).map(async (gen) => {
+//         try {
+//           return {
+//             gen: gen,
+//             data: await Promise.all(
+//               allGen[gen].map(async (id) => {
+//                 const { data } = await axios.get(
+//                   `https://youtube.com/channel/${id}/`,
+//                   config
+//                 );
+
+//                 /* PARSING DATA */
+//                 // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
+//                 // const str = String(initialdata);
+//                 // const finaldata = str.match(/{(.*}]}}})/gm);
+//                 // const parsed = JSON.parse(finaldata);
+
+//                 /* PARSING DATA V2*/
+//                 const regex = /ytInitialData = ({.*}]}}});/gm;
+//                 const finaldata = regex.exec(data)[1];
+//                 const parsed = JSON.parse(finaldata);
+
+//                 return getChannelData(parsed, id);
+//               })
+//             ),
+//           };
+//         } catch (error) {
+//           console.log(error);
+//         }
+//       })
+//     );
+//     console.timeEnd("test");
+//     return res.send(result);
+//   } catch (error) {
+//     console.log(errzz);
+//     return res.status(500).send({ message: "something went wrong" });
+//   }
+// });
+
 // app.get("/api/v1/hololive", async (req, res) => {
 //   try {
 //     let vtuberResult = [];
@@ -162,82 +241,3 @@ app.get("/", (req, res) => {
 //     return res.status(500).send({ message: "something went wrong" });
 //   }
 // });
-
-app.get("/api/v2/hololive", async (req, res) => {
-  try {
-    console.time("test");
-    const data = await pool.query(
-      "SELECT * FROM CHANNEL AS C LEFT JOIN GENERATION AS G ON C.id_generation=G.id_generation ORDER BY C.id "
-    );
-
-    /* Source = https://stackoverflow.com/questions/40774697/how-to-group-an-array-of-objects-by-key/40774759#40774759 */
-    let result = data.rows.reduce((r, a) => {
-      r[a.generation_name] = r[a.generation_name] || [];
-      r[a.generation_name].push(a);
-      return r;
-    }, Object.create(null));
-    return res.send(result);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({ message: "something went wrong" });
-  }
-});
-
-// app.get("/api/v2/hololive", async (req, res) => {
-//   try {
-//     console.time("test");
-//     const result = await Promise.all(
-//       Object.keys(allGen).map(async (gen) => {
-//         try {
-//           return {
-//             gen: gen,
-//             data: await Promise.all(
-//               allGen[gen].map(async (id) => {
-//                 const { data } = await axios.get(
-//                   `https://youtube.com/channel/${id}/`,
-//                   config
-//                 );
-
-//                 /* PARSING DATA */
-//                 // const initialdata = data.match(/ytInitialData = (.*}]}}});/gm);
-//                 // const str = String(initialdata);
-//                 // const finaldata = str.match(/{(.*}]}}})/gm);
-//                 // const parsed = JSON.parse(finaldata);
-
-//                 /* PARSING DATA V2*/
-//                 const regex = /ytInitialData = ({.*}]}}});/gm;
-//                 const finaldata = regex.exec(data)[1];
-//                 const parsed = JSON.parse(finaldata);
-
-//                 return getChannelData(parsed, id);
-//               })
-//             ),
-//           };
-//         } catch (error) {
-//           console.log(error);
-//         }
-//       })
-//     );
-//     console.timeEnd("test");
-//     return res.send(result);
-//   } catch (error) {
-//     console.log(errzz);
-//     return res.status(500).send({ message: "something went wrong" });
-//   }
-// });
-
-app.listen(PORT, (error) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(`Server has started on port ${PORT}`);
-  }
-});
-
-//fs.writeFileSync("kek2.json", finaldata);
-// console.log(data[1].response.metadata.channelMetadataRenderer);
-// fs.writeFileSync(
-//   "test.txt",
-//   parsed.responseContext.serviceTrackingParams[0].service
-// );
-// fs.writeFileSync("test.html", data);
