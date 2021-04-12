@@ -1,11 +1,12 @@
 const { Pool } = require("pg");
-
+const dotenv = require("dotenv");
+dotenv.config();
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "hololive",
-  password: "Rafadana22",
-  port: 5432,
+  user: process.env.DB_USERNAME,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 const { allGenOld } = require("./allVtubers");
