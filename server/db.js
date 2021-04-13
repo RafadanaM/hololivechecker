@@ -11,6 +11,7 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false,
   },
+
 });
 
 const { allGenOld, allGen } = require("./allVtubers");
