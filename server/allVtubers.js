@@ -72,7 +72,7 @@ const idSecondGen = [
   "UChgTyjG-pdNvxxhdsXfHQ5Q",
 ];
 
-const allGenOld = {
+const allGenOld = [
   ...enFirstGen,
   ...jpZeroGen,
   ...jpFirstGen,
@@ -83,7 +83,7 @@ const allGenOld = {
   ...jpFifthGen,
   ...idFirstGen,
   ...idSecondGen,
-};
+];
 
 const allGen = {
   ["EN 1st Gen"]: [...enFirstGen],

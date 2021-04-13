@@ -22,7 +22,9 @@ const ProfileCard = (props) => {
             src={data.avatar}
             alt="avatar"
             className={classes.imageDecoration}
-            onClick={() => openLink(data.link)}
+            onClick={() =>
+              openLink(`https://www.youtube.com/channel/${data.id_channel}`)
+            }
           />
           {data.live && (
             <Box className={classes.live}>
@@ -39,10 +41,16 @@ const ProfileCard = (props) => {
             component="p"
             className={classes.channelName}
           >
-            {data.name}
+            {data.channel_name}
           </Typography>
           <Box className={classes.subs}>
-            <p onClick={() => openLink(data.subscribeLink)}>
+            <p
+              onClick={() =>
+                openLink(
+                  `https://www.youtube.com/channel/${data.id_channel}?sub_confirmation=1`
+                )
+              }
+            >
               {data.subscribers}
             </p>
           </Box>
@@ -55,16 +63,16 @@ const ProfileCard = (props) => {
           >
             {data.live && (
               <img
-                src={data.liveVideoThumbnail}
+                src={data.live_video_thumbnail}
                 alt="live thumbnail"
                 className={classes.liveThumbnail}
-                onClick={() => openLink(data.liveVideoUrl)}
+                onClick={() => openLink(data.live_video_url)}
               />
             )}
           </Box>
           <p className={classes.liveTitle}>
             {data.live
-              ? data.liveVideoTitle
+              ? data.live_video_title
               : `${data.name} is not streaming Σ(ＴωＴ)`}
           </p>
         </Box>
