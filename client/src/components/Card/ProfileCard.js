@@ -73,7 +73,7 @@ const ProfileCard = (props) => {
           <p className={classes.liveTitle}>
             {data.live
               ? data.live_video_title
-              : `${data.name} is not streaming Σ(ＴωＴ)`}
+              : `${data.channel_name} is not streaming Σ(ＴωＴ)`}
           </p>
         </Box>
       </CardContent>
