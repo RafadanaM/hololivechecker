@@ -36,7 +36,7 @@ const config = {
 };
 
 // CRON
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule("*/3 * * * *", async () => {
   console.log("running cron job...");
   const result = await Promise.all(
     Object.keys(allGen).map(async (gen, idx) => {
