@@ -1,6 +1,4 @@
-const db = require("./db");
-
-const getChannelData = (parsed, id, idx, onlyLive = false) => {
+const getChannelData = (parsed, id, onlyLive = false) => {
   try {
     let isLive = false;
     let liveThumbnailUrl = null;
@@ -45,35 +43,33 @@ const getChannelData = (parsed, id, idx, onlyLive = false) => {
     )[0];
 
     const all = {
-      name: channelName,
-      link: channelUrl,
-      avatar: channelAvatar,
-      thumbnail: channelThumbnail,
-      subscribers: channelSubscribers.split(" ")[0],
-      live: isLive,
-      liveVideoThumbnail: liveThumbnailUrl,
-      liveVideoTitle: liveTitle,
-      liveVideoUrl: liveLink,
+      channelName: channelName,
+      channelAvatar: channelAvatar,
+      channelThumbnail: channelThumbnail,
+      channelSubscribers: channelSubscribers.split(" ")[0],
+      isLive: isLive,
+      liveThumbnailUrl: liveThumbnailUrl,
+      liveTitle: liveTitle,
+      liveLink: liveLink,
       watching: watching,
-      subscribeLink: `https://www.youtube.com/channel/${id}?sub_confirmation=1`,
     };
-
-    db.query(
-      "UPDATE CHANNEL SET channel_name = $1, avatar = $2, thumbnail = $3, subscribers = $4, live = $5, live_video_thumbnail = $6, live_video_title = $7, live_video_url = $8, watching = $9 WHERE id_channel = $10 AND id_generation = $11",
-      [
-        channelName,
-        channelAvatar,
-        channelThumbnail,
-        channelSubscribers,
-        isLive,
-        liveThumbnailUrl,
-        liveTitle,
-        liveLink,
-        watching,
-        id,
-        idx,
-      ]
-    );
+    return all;
+    // db.query(
+    //   "UPDATE CHANNEL SET channel_name = $1, avatar = $2, thumbnail = $3, subscribers = $4, live = $5, live_video_thumbnail = $6, live_video_title = $7, live_video_url = $8, watching = $9 WHERE id_channel = $10 AND id_generation = $11",
+    //   [
+    //     channelName,
+    //     channelAvatar,
+    //     channelThumbnail,
+    //     channelSubscribers,
+    //     isLive,
+    //     liveThumbnailUrl,
+    //     liveTitle,
+    //     liveLink,
+    //     watching,
+    //     id,
+    //     idx,
+    //   ]
+    // );
   } catch (err) {
     console.log(err);
   }

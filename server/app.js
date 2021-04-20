@@ -5,6 +5,7 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 const cron = require("node-cron");
 const fs = require("fs");
+const db = require("./db");
 
 dotenv.config();
 const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
@@ -38,7 +39,7 @@ const config = {
 // CRON
 cron.schedule("*/3 * * * *", async () => {
   console.log("running cron job...");
-  const result = await Promise.all(
+  await Promise.all(
     Object.keys(allGen).map(async (gen, idx) => {
       try {
         await Promise.all(
@@ -54,7 +55,33 @@ cron.schedule("*/3 * * * *", async () => {
               const finaldata = regex.exec(data)[1];
               const parsed = JSON.parse(finaldata);
 
-              getChannelData(parsed, id, idx + 1);
+              const {
+                channelName,
+                channelAvatar,
+                channelThumbnail,
+                channelSubscribers,
+                isLive,
+                liveThumbnailUrl,
+                liveTitle,
+                liveLink,
+                watching,
+              } = getChannelData(parsed, id);
+              await db.query(
+                "UPDATE CHANNEL SET channel_name = $1, avatar = $2, thumbnail = $3, subscribers = $4, live = $5, live_video_thumbnail = $6, live_video_title = $7, live_video_url = $8, watching = $9 WHERE id_channel = $10 AND id_generation = $11",
+                [
+                  channelName,
+                  channelAvatar,
+                  channelThumbnail,
+                  channelSubscribers,
+                  isLive,
+                  liveThumbnailUrl,
+                  liveTitle,
+                  liveLink,
+                  watching,
+                  id,
+                  idx + 1,
+                ]
+              );
             } catch (error) {
               console.log(error);
             }
