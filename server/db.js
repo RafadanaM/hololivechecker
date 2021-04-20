@@ -1,5 +1,8 @@
 const { Pool } = require("pg");
+const { getChannelData } = require("./functions");
 const dotenv = require("dotenv");
+const axios = require("axios");
+const { allGenOld, allGen } = require("./allVtubers");
 dotenv.config();
 const pool = new Pool({
   user: process.env.DB_USERNAME,
@@ -8,14 +11,18 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
   //remove in local
-  ssl: {
-    rejectUnauthorized: false,
-  },
-
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 });
 
-const { allGenOld, allGen } = require("./allVtubers");
-
+const config = {
+  headers: {
+    "x-youtube-client-name": "1",
+    "x-youtube-client-version": "2.20180222",
+    "accept-language": "en-US,en;q=0.5",
+  },
+};
 pool.on("error", (err, client) => {
   console.error("Unexpected error on idle client", err);
   process.exit(-1);
@@ -64,6 +71,60 @@ pool.on("error", (err, client) => {
         })
       );
     }
+
+    //update data
+    await Promise.all(
+      Object.keys(allGen).map(async (gen, idx) => {
+        try {
+          await Promise.all(
+            allGen[gen].map(async (id) => {
+              try {
+                const { data } = await axios.get(
+                  `https://youtube.com/channel/${id}/`,
+                  config
+                );
+
+                /* PARSING DATA V2*/
+                const regex = /ytInitialData = ({.*}]}}});/gm;
+                const finaldata = regex.exec(data)[1];
+                const parsed = JSON.parse(finaldata);
+                const {
+                  channelName,
+                  channelAvatar,
+                  channelThumbnail,
+                  channelSubscribers,
+                  isLive,
+                  liveThumbnailUrl,
+                  liveTitle,
+                  liveLink,
+                  watching,
+                } = getChannelData(parsed, id);
+                await client.query(
+                  "UPDATE CHANNEL SET channel_name = $1, avatar = $2, thumbnail = $3, subscribers = $4, live = $5, live_video_thumbnail = $6, live_video_title = $7, live_video_url = $8, watching = $9 WHERE id_channel = $10 AND id_generation = $11",
+                  [
+                    channelName,
+                    channelAvatar,
+                    channelThumbnail,
+                    channelSubscribers,
+                    isLive,
+                    liveThumbnailUrl,
+                    liveTitle,
+                    liveLink,
+                    watching,
+                    id,
+                    idx + 1,
+                  ]
+                );
+              } catch (error) {
+                console.log(error);
+              }
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    );
   } finally {
     // Make sure to release the client before any error handling,
     // just in case the error handling itself throws an error.
