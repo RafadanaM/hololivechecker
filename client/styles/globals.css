@@ -15,10 +15,6 @@ a {
   box-sizing: border-box;
 }
 
-.content {
-  margin: 0 auto;
-}
-
 nav {
   background: #74cfe2;
   display: flex;
@@ -56,9 +52,26 @@ footer {
 footer ul {
   list-style-type: none;
   padding: 0;
+  margin: 0.5em;
 }
 
 footer ul li {
   display: inline;
   margin: auto 10px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  flex: 1 1 auto;
+  padding: 10px;
+}
+
+#__next {
+  height: 100vh;
 }
