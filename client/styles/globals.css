@@ -14,3 +14,51 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.content {
+  margin: 0 auto;
+}
+
+nav {
+  background: #74cfe2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: sticky;
+  z-index: 999;
+}
+
+nav > ul {
+  list-style-type: none;
+  margin: 20px auto;
+  padding: 10px 0;
+  padding: 0;
+}
+
+nav > ul > li {
+  display: inline;
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #74cfe2;
+  color: white;
+  text-align: center;
+}
+
+footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+footer ul li {
+  display: inline;
+  margin: auto 10px;
+}
