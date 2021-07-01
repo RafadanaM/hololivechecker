@@ -1,6 +1,20 @@
 import styles from "../styles/Card.module.css";
-import Image from "next/image";
-function Card() {
+
+interface CardProps {
+  data: {
+    avatar: string;
+    id_channel: string;
+    thumbnail: string;
+    live: boolean;
+    channel_name: string;
+    subscribers: string;
+    live_video_thumbnail: string;
+    live_video_title: string;
+    live_video_url: string;
+  };
+}
+
+function Card({ data }: CardProps) {
   return (
     <div className={styles.card}>
       <div
@@ -11,7 +25,6 @@ function Card() {
         }}
       >
         <div className={styles.grayscale}>
-          {" "}
           <div className={styles.liveBox}>
             <div className={styles.circle} />
             LIVE
@@ -28,7 +41,9 @@ function Card() {
               alt="youtube avatar"
             />
           </div>
-          <div className={styles.subscribersBox}>11 M</div>
+          <div className={styles.subscribersBox}>
+            <p>11M</p>
+          </div>
           <span className={styles.channelName}>Youtube channel name here</span>
         </div>
         <div className={styles.cardContentRight}>
