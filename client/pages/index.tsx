@@ -5,10 +5,13 @@ import {
   Tabs,
   withStyles,
 } from "@material-ui/core";
+import { AxiosError, AxiosResponse } from "axios";
+import { GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
 import axios from "../axios/axios";
 import Card from "../components/Card";
 import TabItem from "../components/TabItem";
+import { HoloMember, MembersResponse } from "../interface";
 import classes from "../styles/index.module.css";
 
 interface TabPanelProps {
@@ -74,23 +77,28 @@ const StyledTab = withStyles((theme) => ({
   },
 }))((props: StyledTabProps) => <Tab {...props} />);
 
-function HomePage() {
+export interface HomePageProps {
+  members: MembersResponse;
+  error: AxiosError;
+}
+
+function HomePage({ members, error }: HomePageProps) {
   const [page, setPage] = useState(0);
-  const [data, setData] = useState([]);
+  //   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get(`/hololive`)
-      .then(({ data }) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("An Error Has Occured");
-      });
-  }, []);
+  //   useEffect(() => {
+  //     axios
+  //       .get(`/hololive`)
+  //       .then(({ data }) => {
+  //         setData(data);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         alert("An Error Has Occured");
+  //       });
+  //   }, []);
 
   const handlePageChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setPage(newValue);
@@ -102,36 +110,39 @@ function HomePage() {
         onChange={handlePageChange}
         aria-label="hololive tabs"
       >
-        {!loading
-          ? [
-              <StyledTab key="currentlyLive" label="Currently Live" />,
-              Object.keys(data).map((gen) => (
-                <StyledTab key={gen} label={gen} />
-              )),
-            ]
-          : null}
+        <StyledTab key="currentlyLive" label="Currently Live" />
+        {Object.keys(members).map((gen) => (
+          <StyledTab key={gen} label={gen} />
+        ))}
       </StyledTabs>
 
-      {!loading ? (
-        [
-          <TabPanel value={page} index={0} key={"currentlyLive"}>
-            <TabItem
-              value={Object.values(data)
-                .flatMap((x: any) => x)
-                .filter((x) => x.live)}
-            />
-          </TabPanel>,
-          Object.values(data).map((detail, idx) => (
-            <TabPanel value={page} index={idx + 1} key={idx}>
-              <TabItem value={detail} />
-            </TabPanel>
-          )),
-        ]
-      ) : (
-        <CircularProgress />
-      )}
+      <TabPanel value={page} index={0} key={"currentlyLive"}>
+        <TabItem
+          value={Object.values(members)
+            .flatMap((x) => x)
+            .filter((x: HoloMember) => x.live)}
+        />
+      </TabPanel>
+      {Object.values(members).map((detail, idx) => (
+        <TabPanel value={page} index={idx + 1} key={idx}>
+          <TabItem value={detail} />
+        </TabPanel>
+      ))}
     </div>
   );
 }
+interface StaticProps {
+  members: any | null;
+  error: any;
+}
+export const getStaticProps: GetStaticProps = async (context) => {
+  try {
+    const res = await axios.get("hololive");
+    const members: MembersResponse = res.data;
+    return { props: { members: members, error: null }, revalidate: 60 };
+  } catch (error) {
+    return { props: { members: null, error: error } };
+  }
+};
 
 export default HomePage;
