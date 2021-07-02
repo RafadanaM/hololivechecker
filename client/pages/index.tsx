@@ -5,14 +5,14 @@ import {
   Tabs,
   withStyles,
 } from "@material-ui/core";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { GetStaticProps } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "../axios/axios";
-import Card from "../components/Card";
 import TabItem from "../components/TabItem";
 import { HoloMember, MembersResponse } from "../interface";
 import classes from "../styles/index.module.css";
+import Head from "next/head";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -84,71 +84,66 @@ export interface HomePageProps {
 
 function HomePage({ members, error }: HomePageProps) {
   const [page, setPage] = useState(0);
-  //   const [data, setData] = useState([]);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get(`/hololive`)
-  //       .then(({ data }) => {
-  //         setData(data);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         alert("An Error Has Occured");
-  //       });
-  //   }, []);
 
   const handlePageChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setPage(newValue);
   };
   return (
-    <div className={classes.tabsContainer}>
-      <StyledTabs
-        value={page}
-        onChange={handlePageChange}
-        aria-label="hololive tabs"
-      >
-        {error && <h1>An Error has Occured </h1>}
-        {members && !error
-          ? [
-              <StyledTab key="currentlyLive" label="Currently Live" />,
-              Object.keys(members).map((gen) => (
-                <StyledTab key={gen} label={gen} />
-              )),
-            ]
-          : null}
-      </StyledTabs>
-      {members && !error ? (
-        [
-          <TabPanel value={page} index={0} key={"currentlyLive"}>
-            <TabItem
-              value={Object.values(members)
-                .flatMap((x) => x)
-                .filter((x: HoloMember) => x.live)}
-            />
-          </TabPanel>,
-          Object.values(members).map((detail, idx) => (
-            <TabPanel value={page} index={idx + 1} key={idx}>
-              <TabItem value={detail} />
-            </TabPanel>
-          )),
-        ]
-      ) : (
-        <CircularProgress />
-      )}
-    </div>
+    <>
+      <Head>
+        <title>Hololive Stream Checker</title>
+        <meta
+          name="description"
+          content="Check whether hololive members are streaming on youtube!"
+        ></meta>
+      </Head>
+      <div className={classes.tabsContainer}>
+        <StyledTabs
+          value={page}
+          onChange={handlePageChange}
+          aria-label="hololive tabs"
+        >
+          {error && <h1>An Error has Occured </h1>}
+          {members && !error
+            ? [
+                <StyledTab key="currentlyLive" label="Currently Live" />,
+                Object.keys(members).map((gen) => (
+                  <StyledTab key={gen} label={gen} />
+                )),
+              ]
+            : null}
+        </StyledTabs>
+        {members && !error ? (
+          [
+            <TabPanel value={page} index={0} key={"currentlyLive"}>
+              <TabItem
+                value={Object.values(members)
+                  .flatMap((x) => x)
+                  .filter((x: HoloMember) => x.live)}
+              />
+            </TabPanel>,
+            Object.values(members).map((detail, idx) => (
+              <TabPanel value={page} index={idx + 1} key={idx}>
+                <TabItem value={detail} />
+              </TabPanel>
+            )),
+          ]
+        ) : (
+          <CircularProgress />
+        )}
+      </div>
+    </>
   );
 }
-interface StaticProps {
-  members: any | null;
-  error: any;
-}
+// interface StaticProps {
+//   members: any | null;
+//   error: any;
+// }
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const res = await axios.get("hololive");
     const members: MembersResponse = res.data;
-    return { props: { members: members, error: null }, revalidate: 60 };
+    return { props: { members: members, error: null }, revalidate: 120 };
   } catch (error) {
     return { props: { members: null, error: error } };
   }

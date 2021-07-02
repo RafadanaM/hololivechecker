@@ -1,7 +1,6 @@
-import github from "../../public/github.png";
-import email from "../../public/email.png";
+import github from "../public/github.png";
+import email from "../public/email.png";
 import Image from "next/image";
-import styles from "./Footer.module.css";
 
 function Footer() {
   return (
