@@ -92,10 +92,13 @@ function HomePage({ members, error }: HomePageProps) {
     <>
       <Head>
         <title>Hololive Stream Checker</title>
+        <link rel="apple-touch-icon" href="/logo192.png" />
+        <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
           content="Check whether hololive members are streaming on youtube!"
-        ></meta>
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className={classes.tabsContainer}>
         <StyledTabs
