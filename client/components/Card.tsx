@@ -1,5 +1,6 @@
 import { HoloMember } from "../interface";
 import styles from "../styles/Card.module.css";
+import Image from "next/image";
 
 interface CardProps {
   data: HoloMember;
@@ -41,10 +42,11 @@ function Card({ data }: CardProps) {
               openLink(`https://www.youtube.com/channel/${data.id_channel}`)
             }
           >
-            <img
-              className={styles.avatar}
+            <Image
               src={data.avatar}
               alt="youtube avatar"
+              layout="fill"
+              className={styles.avatar}
             />
           </div>
           <div
@@ -62,10 +64,11 @@ function Card({ data }: CardProps) {
         <div className={styles.cardContentRight}>
           <div className={styles.videoBox}>
             {data.live && data.live_video_thumbnail && data.live_video_url && (
-              <img
+              <Image
                 className={styles.liveThumbnail}
                 src={data.live_video_thumbnail}
                 alt="live thumbnail"
+                layout="fill"
                 onClick={() => openLink(data.live_video_url)}
               />
             )}
