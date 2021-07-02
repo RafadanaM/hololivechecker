@@ -16,7 +16,11 @@ const TabItem = ({ value }: any) => {
         <h2>No one is Streaming right now Sadge</h2>
       ) : (
         value.map((item: any, id: any) => {
-          return <Card key={id} data={item} />;
+          return (
+            // <div className={classes.item}>
+            <Card key={id} data={item} />
+            // </div>
+          );
         })
       )}
     </div>

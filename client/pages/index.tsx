@@ -85,7 +85,6 @@ export interface HomePageProps {
 function HomePage({ members, error }: HomePageProps) {
   const [page, setPage] = useState(0);
   //   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   //   useEffect(() => {
   //     axios
@@ -106,28 +105,38 @@ function HomePage({ members, error }: HomePageProps) {
   return (
     <div className={classes.tabsContainer}>
       <StyledTabs
-        value={0}
+        value={page}
         onChange={handlePageChange}
         aria-label="hololive tabs"
       >
-        <StyledTab key="currentlyLive" label="Currently Live" />
-        {Object.keys(members).map((gen) => (
-          <StyledTab key={gen} label={gen} />
-        ))}
+        {error && <h1>An Error has Occured </h1>}
+        {members && !error
+          ? [
+              <StyledTab key="currentlyLive" label="Currently Live" />,
+              Object.keys(members).map((gen) => (
+                <StyledTab key={gen} label={gen} />
+              )),
+            ]
+          : null}
       </StyledTabs>
-
-      <TabPanel value={page} index={0} key={"currentlyLive"}>
-        <TabItem
-          value={Object.values(members)
-            .flatMap((x) => x)
-            .filter((x: HoloMember) => x.live)}
-        />
-      </TabPanel>
-      {Object.values(members).map((detail, idx) => (
-        <TabPanel value={page} index={idx + 1} key={idx}>
-          <TabItem value={detail} />
-        </TabPanel>
-      ))}
+      {members && !error ? (
+        [
+          <TabPanel value={page} index={0} key={"currentlyLive"}>
+            <TabItem
+              value={Object.values(members)
+                .flatMap((x) => x)
+                .filter((x: HoloMember) => x.live)}
+            />
+          </TabPanel>,
+          Object.values(members).map((detail, idx) => (
+            <TabPanel value={page} index={idx + 1} key={idx}>
+              <TabItem value={detail} />
+            </TabPanel>
+          )),
+        ]
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 }
