@@ -106,7 +106,7 @@ function HomePage({ members, error }: HomePageProps) {
           onChange={handlePageChange}
           aria-label="hololive tabs"
         >
-          {error && <h1>An Error has Occured </h1>}
+          {error && <h1>An Error has Occured! </h1>}
           {members && !error
             ? [
                 <StyledTab key="currentlyLive" label="Currently Live" />,
