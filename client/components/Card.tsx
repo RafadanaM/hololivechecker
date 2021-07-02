@@ -62,16 +62,27 @@ function Card({ data }: CardProps) {
           <span className={styles.channelName}>{data.channel_name}</span>
         </div>
         <div className={styles.cardContentRight}>
-          <div className={styles.videoBox}>
-            {data.live && data.live_video_thumbnail && data.live_video_url && (
+          <div
+            className={styles.videoBox}
+            onClick={() =>
+              data.live && data.live_video_url && openLink(data.live_video_url)
+            }
+            style={
+              data.live && data.live_video_thumbnail
+                ? {
+                    backgroundImage: `url(${data.live_video_thumbnail})`,
+                  }
+                : {}
+            }
+          >
+            {/* {data.live && data.live_video_thumbnail && data.live_video_url && (
               <Image
-                className={styles.liveThumbnail}
                 src={data.live_video_thumbnail}
                 alt="live thumbnail"
                 layout="fill"
                 onClick={() => openLink(data.live_video_url)}
               />
-            )}
+            )} */}
           </div>
           <span className={styles.videoTitle}>
             {data.live

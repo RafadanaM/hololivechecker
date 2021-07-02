@@ -68,7 +68,6 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
-
   flex: 1;
 }
 
@@ -88,9 +87,6 @@
 
 .videoBox {
   background-color: grey;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 172px;
   width: 90%;
   box-shadow: 4px 3px 7px rgb(0 0 0 / 75%);
@@ -98,8 +94,6 @@
 
 .liveThumbnail {
   height: 100%;
-  width: 100%;
-  transition: all 0.7s ease;
 }
 
 .channelName {
@@ -138,8 +132,8 @@
   border-radius: 50%;
 }
 
-.videoBox :hover,
-.avatarContainer :hover {
+.videoBox:hover,
+.avatarContainer:hover {
   transition: all 0.7s ease;
   cursor: pointer;
   filter: brightness(0.7);
