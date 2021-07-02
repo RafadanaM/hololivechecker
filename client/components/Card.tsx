@@ -59,7 +59,7 @@ function Card({ data }: CardProps) {
           >
             <p>{data.subscribers}</p>
           </div>
-          <span className={styles.channelName}>{data.channel_name}</span>
+          <p className={styles.channelName}>{data.channel_name}</p>
         </div>
         <div className={styles.cardContentRight}>
           <div
@@ -84,11 +84,11 @@ function Card({ data }: CardProps) {
               />
             )} */}
           </div>
-          <span className={styles.videoTitle}>
+          <p className={styles.videoTitle}>
             {data.live
               ? data.live_video_title
               : `${data.channel_name} is not streaming Σ(ＴωＴ)`}
-          </span>
+          </p>
         </div>
       </div>
     </div>

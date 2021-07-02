@@ -98,15 +98,19 @@ function HomePage({ members, error }: HomePageProps) {
           name="description"
           content="Check whether hololive members are streaming on youtube!"
         />
+        <meta
+          name="google-site-verification"
+          content="WttWLQpui478HSNE4dKIm0eTsoBK8fQYiFSQdUcSbL4"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className={classes.tabsContainer}>
-        {error && <h1>An Error has Occured! with code of {error} </h1>}
         <StyledTabs
           value={page}
           onChange={handlePageChange}
           aria-label="hololive tabs"
         >
+          {error && <h1>An Error has Occured! with code of {error} </h1>}
           {members && !error
             ? [
                 <StyledTab key="currentlyLive" label="Currently Live" />,
@@ -116,22 +120,24 @@ function HomePage({ members, error }: HomePageProps) {
               ]
             : null}
         </StyledTabs>
-        {members
-          ? [
-              <TabPanel value={page} index={0} key={"currentlyLive"}>
-                <TabItem
-                  value={Object.values(members)
-                    .flatMap((x) => x)
-                    .filter((x: HoloMember) => x.live)}
-                />
-              </TabPanel>,
-              Object.values(members).map((detail, idx) => (
-                <TabPanel value={page} index={idx + 1} key={idx}>
-                  <TabItem value={detail} />
-                </TabPanel>
-              )),
-            ]
-          : !error && <CircularProgress />}
+        {members && !error ? (
+          [
+            <TabPanel value={page} index={0} key={"currentlyLive"}>
+              <TabItem
+                value={Object.values(members)
+                  .flatMap((x) => x)
+                  .filter((x: HoloMember) => x.live)}
+              />
+            </TabPanel>,
+            Object.values(members).map((detail, idx) => (
+              <TabPanel value={page} index={idx + 1} key={idx}>
+                <TabItem value={detail} />
+              </TabPanel>
+            )),
+          ]
+        ) : (
+          <CircularProgress />
+        )}
       </div>
     </>
   );
