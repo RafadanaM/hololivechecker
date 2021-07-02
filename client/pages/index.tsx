@@ -101,12 +101,12 @@ function HomePage({ members, error }: HomePageProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className={classes.tabsContainer}>
+        {error && <h1>An Error has Occured! with code of {error} </h1>}
         <StyledTabs
           value={page}
           onChange={handlePageChange}
           aria-label="hololive tabs"
         >
-          {error && <h1>An Error has Occured! </h1>}
           {members && !error
             ? [
                 <StyledTab key="currentlyLive" label="Currently Live" />,
@@ -116,24 +116,22 @@ function HomePage({ members, error }: HomePageProps) {
               ]
             : null}
         </StyledTabs>
-        {members && !error ? (
-          [
-            <TabPanel value={page} index={0} key={"currentlyLive"}>
-              <TabItem
-                value={Object.values(members)
-                  .flatMap((x) => x)
-                  .filter((x: HoloMember) => x.live)}
-              />
-            </TabPanel>,
-            Object.values(members).map((detail, idx) => (
-              <TabPanel value={page} index={idx + 1} key={idx}>
-                <TabItem value={detail} />
-              </TabPanel>
-            )),
-          ]
-        ) : (
-          <CircularProgress />
-        )}
+        {members
+          ? [
+              <TabPanel value={page} index={0} key={"currentlyLive"}>
+                <TabItem
+                  value={Object.values(members)
+                    .flatMap((x) => x)
+                    .filter((x: HoloMember) => x.live)}
+                />
+              </TabPanel>,
+              Object.values(members).map((detail, idx) => (
+                <TabPanel value={page} index={idx + 1} key={idx}>
+                  <TabItem value={detail} />
+                </TabPanel>
+              )),
+            ]
+          : !error && <CircularProgress />}
       </div>
     </>
   );
@@ -148,7 +146,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const members: MembersResponse = res.data;
     return { props: { members: members, error: null }, revalidate: 120 };
   } catch (error) {
-    return { props: { members: null, error: error } };
+    let errorMsg: string | undefined = "";
+    const err = error as AxiosError;
+    if (err.isAxiosError) {
+      errorMsg = err.code;
+    }
+
+    return { props: { members: null, error: errorMsg } };
   }
 };
 
