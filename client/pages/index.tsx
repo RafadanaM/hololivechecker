@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import axios from "../axios/axios";
 import TabItem from "../components/TabItem";
 import { HoloMember, MembersResponse } from "../interface";
-import classes from "../styles/index.module.css";
+import classes from "../styles/Index.module.css";
 import Head from "next/head";
 
 interface TabPanelProps {
