@@ -1,10 +1,5 @@
-import {
-  Box,
-  CircularProgress,
-  Tab,
-  Tabs,
-  withStyles,
-} from "@material-ui/core";
+import { Box, CircularProgress, Tab, Tabs } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
 import { AxiosError } from "axios";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
@@ -12,7 +7,6 @@ import axios from "../axios/axios";
 import TabItem from "../components/TabItem";
 import { HoloMember, MembersResponse } from "../interface";
 import classes from "../styles/Index.module.css";
-import Head from "next/head";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
       className={classes.tabContent}
     >
-      {value === index && <Box className={classes.box}>{children}</Box>}
+      {value === index && <div className={classes.box}>{children}</div>}
     </div>
   );
 }
@@ -66,10 +60,9 @@ const StyledTab = withStyles((theme) => ({
   root: {
     textTransform: "none",
     color: "#979797",
+    fontSize: "1.75rem",
+    fontWeight: "normal",
 
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(28),
-    marginRight: theme.spacing(1),
     "&:focus": {
       backgroundColor: "#D3D3D3",
       opacity: 1,
@@ -90,28 +83,15 @@ function HomePage({ members, error }: HomePageProps) {
   };
   return (
     <>
-      <Head>
-        <title>Hololive Stream Checker</title>
-        <link rel="apple-touch-icon" href="/logo192.png" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Check whether hololive members are streaming on youtube!"
-        />
-        <meta
-          name="google-site-verification"
-          content="WttWLQpui478HSNE4dKIm0eTsoBK8fQYiFSQdUcSbL4"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <div className={classes.tabsContainer}>
+        {error && <h1>An Error has Occured! with code of {error} </h1>}
+
         <StyledTabs
           value={page}
           onChange={handlePageChange}
           aria-label="hololive tabs"
         >
-          {error && <h1>An Error has Occured! with code of {error} </h1>}
-          {members && !error
+          {members
             ? [
                 <StyledTab key="currentlyLive" label="Currently Live" />,
                 Object.keys(members).map((gen) => (
@@ -124,9 +104,15 @@ function HomePage({ members, error }: HomePageProps) {
           [
             <TabPanel value={page} index={0} key={"currentlyLive"}>
               <TabItem
+                //this is a horrible way just to filter out Fubuki from appearing twice since she is in gen 3 and gamers
                 value={Object.values(members)
                   .flatMap((x) => x)
-                  .filter((x: HoloMember) => x.live)}
+                  .filter((x: HoloMember) => x.live)
+                  .filter(
+                    (x: HoloMember, index, self) =>
+                      self.findIndex((y) => y.id_channel === x.id_channel) ===
+                      index
+                  )}
               />
             </TabPanel>,
             Object.values(members).map((detail, idx) => (

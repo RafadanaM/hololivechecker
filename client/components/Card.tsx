@@ -13,7 +13,7 @@ function Card({ data }: CardProps) {
     }
   };
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${!data.live && styles.filter}`}>
       <div
         className={styles.cardImg}
         style={
