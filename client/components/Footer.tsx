@@ -1,5 +1,5 @@
-import github from "../public/github.png";
-import email from "../public/email.png";
+// import github from "/github.png";
+// import email from "/email.png";
 import Image from "next/image";
 
 function Footer() {
@@ -15,7 +15,7 @@ function Footer() {
             <Image
               height={32}
               width={32}
-              src={github}
+              src="/github.png"
               alt="github.com/RafadanaM/hololivechecker"
             />
           </a>
@@ -30,7 +30,7 @@ function Footer() {
             <Image
               height={32}
               width={32}
-              src={email}
+              src="/email.png"
               alt="RafadanaM@gmail.com"
             />
           </a>

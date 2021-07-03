@@ -128,10 +128,6 @@ function HomePage({ members, error }: HomePageProps) {
     </>
   );
 }
-// interface StaticProps {
-//   members: any | null;
-//   error: any;
-// }
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const res = await axios.get("/hololive");
