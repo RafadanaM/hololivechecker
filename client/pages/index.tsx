@@ -138,13 +138,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const members: MembersResponse = res.data;
     return { props: { members: members, error: null }, revalidate: 120 };
   } catch (error) {
-    let errorMsg: string | undefined = "";
-    const err = error as AxiosError;
-    if (err.isAxiosError) {
-      errorMsg = err.code;
-    }
+//     let errorMsg: string | undefined = "";
+//     const err = error as AxiosError;
+//     if (err.isAxiosError) {
+//       errorMsg = err.code;
+//     }
 
-    return { props: { members: null, error: errorMsg } };
+    return { props: { members: null, error: true } };
   }
 };
 
