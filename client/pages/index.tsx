@@ -146,6 +146,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     //   errorMsg = err.code;
     // }
 
+
     return { props: { members: null, error: true } };
   }
 };
