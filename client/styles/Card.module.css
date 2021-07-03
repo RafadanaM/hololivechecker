@@ -10,25 +10,6 @@
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.4);
   transition: all 0.5s ease;
 }
-.avatar {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  transition: all 0.7s ease;
-}
-
-.avatarContainer {
-  position: absolute;
-  top: -45px;
-  vertical-align: middle;
-  background-color: gray;
-  width: 90px;
-  height: 90px;
-
-  border-radius: 50%;
-  z-index: 30;
-  border: 1px solid white;
-}
 
 .cardImg {
   display: flex;
@@ -86,7 +67,30 @@
   box-shadow: 4px 3px 7px rgba(0, 0, 0, 0.45);
 }
 
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: all 0.7s ease;
+}
+
+.avatarContainer {
+  position: absolute;
+  top: -45px;
+  vertical-align: middle;
+  background-color: gray;
+  width: 90px;
+  height: 90px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  z-index: 30;
+  border: 1px solid white;
+}
+
 .videoBox {
+  position: relative;
   background-color: grey;
   height: 172px;
   width: 90%;
@@ -95,6 +99,7 @@
 
 .liveThumbnail {
   height: 100%;
+  max-width: 100px;
 }
 
 .channelName {

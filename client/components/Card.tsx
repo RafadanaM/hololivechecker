@@ -16,6 +16,7 @@ function Card({ data }: CardProps) {
     <div className={`${styles.card} ${!data.live && styles.filter}`}>
       <div
         className={styles.cardImg}
+        //I can't get next built in Image tag to work in production
         style={
           data.thumbnail
             ? {
@@ -41,14 +42,15 @@ function Card({ data }: CardProps) {
             onClick={() =>
               openLink(`https://www.youtube.com/channel/${data.id_channel}`)
             }
-          >
-            <Image
-              src={data.avatar}
-              alt="youtube avatar"
-              layout="fill"
-              className={styles.avatar}
-            />
-          </div>
+            //I can't get next built in Image tag to work in production
+            style={
+              data.avatar
+                ? {
+                    backgroundImage: `url(${data.avatar})`,
+                  }
+                : {}
+            }
+          ></div>
           <div
             className={styles.subscribersBox}
             onClick={() =>
