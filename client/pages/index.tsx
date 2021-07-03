@@ -138,6 +138,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const members: MembersResponse = res.data;
     return { props: { members: members, error: null }, revalidate: 120 };
   } catch (error) {
+    console.log(error);
     let errorMsg: string | undefined = "";
     const err = error as AxiosError;
     if (err.isAxiosError) {
