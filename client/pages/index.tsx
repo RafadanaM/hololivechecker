@@ -104,6 +104,7 @@ function HomePage({ members, error }: HomePageProps) {
           [
             <TabPanel value={page} index={0} key={"currentlyLive"}>
               <TabItem
+                //this is a horrible way just to filter out Fubuki from appearing twice since she is in gen 3 and gamers
                 value={Object.values(members)
                   .flatMap((x) => x)
                   .filter((x: HoloMember) => x.live)
