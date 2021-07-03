@@ -134,15 +134,18 @@ function HomePage({ members, error }: HomePageProps) {
 // }
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const res = await axios.get("hololive");
+    const res = await axios.get("/hololive");
     const members: MembersResponse = res.data;
     return { props: { members: members, error: null }, revalidate: 120 };
   } catch (error) {
-//     let errorMsg: string | undefined = "";
-//     const err = error as AxiosError;
-//     if (err.isAxiosError) {
-//       errorMsg = err.code;
-//     }
+    console.log(error);
+
+    // let errorMsg: string | undefined = "";
+    // const err = error as AxiosError;
+    // if (err.isAxiosError) {
+    //   errorMsg = err.code;
+    // }
+
 
     return { props: { members: null, error: true } };
   }
