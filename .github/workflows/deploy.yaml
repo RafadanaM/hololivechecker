@@ -22,8 +22,6 @@ jobs:
           HD_ORIGIN2: "https://hololivechecker.devs.id"
           HD_APP_BASE: "/server"
 
-
-jobs:
   buildFrontEnd:
     runs-on: ubuntu-latest
     steps:
