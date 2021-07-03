@@ -1,9 +1,8 @@
 import React from "react";
-import classes from "./Navbar.module.css";
 
 function Navbar() {
   return (
-    <nav>
+    <nav className="navbar">
       <ul>
         <li>Hololive Checker</li>
       </ul>
