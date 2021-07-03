@@ -18,6 +18,23 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME_SERVER}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
         env:
-          HD_ORIGIN: "https://hololivechecker.netlify.app"
+          HD_ORIGIN: "https://hololivechecker.herokuapp.com"
           HD_ORIGIN2: "https://hololivechecker.devs.id"
           HD_APP_BASE: "/server"
+
+
+jobs:
+  buildFrontEnd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v2
+      - name: Deploy frintend
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME_CLIENT}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+        env:
+          HD_APP_BASE: "/client"
+          HD_REACT_APP_BASE_URL: ${{secrets.REACT_APP_BASE_URL}}
