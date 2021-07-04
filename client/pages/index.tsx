@@ -15,8 +15,6 @@ export interface HomePageProps {
 function HomePage({ members, error }: HomePageProps) {
   const [filter, setFilter] = useState("currentlyLive");
   const changeFilterHandler = (gen: string) => {
-    console.log("change filter to " + gen);
-
     setFilter(gen);
   };
   return (
@@ -46,6 +44,7 @@ function HomePage({ members, error }: HomePageProps) {
             </Button>
             {Object.keys(members).map((gen) => (
               <Button
+                key={gen}
                 variant="contained"
                 onClick={() => changeFilterHandler(gen)}
                 className={` ${classes.buttonBase} ${
