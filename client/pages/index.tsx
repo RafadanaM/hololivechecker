@@ -141,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       errorMsg = err.message;
       console.log(errorMsg);
     } else {
-      errorMsg = "something";
+      errorMsg = "Error";
     }
 
     return { props: { members: null, error: errorMsg } };
