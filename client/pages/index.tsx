@@ -94,8 +94,25 @@ function HomePage({ members, error }: HomePageProps) {
       <div className={classes.tabsContainer}>
         {error && <h1>An Error has Occured! with code of {error} </h1>}
         <div className={classes.buttonContainer}>
+          <Button
+            variant="contained"
+            onClick={() => changeFilterHandler("currentlyLive")}
+          >
+            Currently Live
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => changeFilterHandler("all")}
+          >
+            All
+          </Button>
           {Object.keys(members).map((gen) => (
-            <Button variant="contained">{gen}</Button>
+            <Button
+              variant="contained"
+              onClick={() => changeFilterHandler(gen)}
+            >
+              {gen}
+            </Button>
           ))}
         </div>
         <StyledTabs
