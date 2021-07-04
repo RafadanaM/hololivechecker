@@ -31,45 +31,6 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-interface StyledTabsProps {
-  value: number;
-  onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
-}
-const StyledTabs = withStyles({
-  indicator: {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    "& > span": {
-      width: "100%",
-      backgroundColor: "#74cfe2",
-    },
-  },
-})((props: StyledTabsProps) => (
-  <Tabs
-    variant="scrollable"
-    scrollButtons="auto"
-    {...props}
-    className={classes.tabs}
-    TabIndicatorProps={{ children: <span /> }}
-  />
-));
-interface StyledTabProps {
-  label: string;
-}
-const StyledTab = withStyles((theme) => ({
-  root: {
-    textTransform: "none",
-    color: "#979797",
-    fontSize: "1.75rem",
-    fontWeight: "normal",
-
-    "&:focus": {
-      backgroundColor: "#D3D3D3",
-      opacity: 1,
-    },
-  },
-}))((props: StyledTabProps) => <Tab {...props} />);
 
 export interface HomePageProps {
   members: MembersResponse;
@@ -117,19 +78,6 @@ function HomePage({ members, error }: HomePageProps) {
         </div>
         {members && !error ? (
           [
-            <TabPanel value={page} index={0} key={"currentlyLive"}>
-              <TabItem
-                //this is a horrible way just to filter out Fubuki from appearing twice since she is in gen 3 and gamers
-                value={Object.values(members)
-                  .flatMap((x) => x)
-                  .filter((x: HoloMember) => x.live)
-                  .filter(
-                    (x: HoloMember, index, self) =>
-                      self.findIndex((y) => y.id_channel === x.id_channel) ===
-                      index
-                  )}
-              />
-            </TabPanel>,
             <div className={classes.cardContainer} key={"rest"}>
               {Object.values(members)
                 .flatMap((x) => x)
@@ -140,18 +88,13 @@ function HomePage({ members, error }: HomePageProps) {
                     ? true
                     : x.generation_name === filter
                 )
-                .map((detail, idx) => (
+                .map((detail) => (
                   <Card
                     key={detail.id + detail.generation_name}
                     data={detail}
                   />
                 ))}
             </div>,
-            Object.values(members).map((detail, idx) => (
-              <TabPanel value={page} index={idx + 1} key={idx}>
-                <TabItem value={detail} />
-              </TabPanel>
-            )),
           ]
         ) : (
           <CircularProgress />
