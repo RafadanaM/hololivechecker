@@ -28,7 +28,7 @@ function HomePage({ members, error }: HomePageProps) {
               variant="contained"
               onClick={() => changeFilterHandler("currentlyLive")}
               className={`${classes.buttonBase} ${
-                filter === "currentlyLive" && classes.buttonFilter
+                filter === "currentlyLive" ? classes.buttonFilter : ""
               }`}
             >
               Currently Live
@@ -37,7 +37,7 @@ function HomePage({ members, error }: HomePageProps) {
               variant="contained"
               onClick={() => changeFilterHandler("all")}
               className={` ${classes.buttonBase} ${
-                filter === "all" && classes.buttonFilter
+                filter === "all" ? classes.buttonFilter : ""
               }`}
             >
               All
@@ -48,7 +48,7 @@ function HomePage({ members, error }: HomePageProps) {
                 variant="contained"
                 onClick={() => changeFilterHandler(gen)}
                 className={` ${classes.buttonBase} ${
-                  filter === gen && classes.buttonFilter
+                  filter === gen ? classes.buttonFilter : ""
                 }`}
               >
                 {gen}
