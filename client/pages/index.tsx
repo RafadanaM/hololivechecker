@@ -1,9 +1,10 @@
-import { Box, CircularProgress, Tab, Tabs } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
+import { Box, Button, CircularProgress, Tab, Tabs } from "@material-ui/core";
+import { StylesProvider, withStyles } from "@material-ui/styles";
 import { AxiosError } from "axios";
 import { GetServerSideProps, GetStaticProps } from "next";
 import React, { useState } from "react";
 import axios from "../axios/axios";
+import Card from "../components/Card";
 import TabItem from "../components/TabItem";
 import { HoloMember, MembersResponse } from "../interface";
 import classes from "../styles/Index.module.css";
@@ -77,15 +78,26 @@ export interface HomePageProps {
 
 function HomePage({ members, error }: HomePageProps) {
   const [page, setPage] = useState(0);
+  const [filter, setFilter] = useState("all");
 
   const handlePageChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setPage(newValue);
+  };
+
+  const changeFilterHandler = (gen: string) => {
+    console.log("change filter to " + gen);
+
+    setFilter(gen);
   };
   return (
     <>
       <div className={classes.tabsContainer}>
         {error && <h1>An Error has Occured! with code of {error} </h1>}
-
+        <div className={classes.buttonContainer}>
+          {Object.keys(members).map((gen) => (
+            <Button variant="contained">{gen}</Button>
+          ))}
+        </div>
         <StyledTabs
           value={page}
           onChange={handlePageChange}
@@ -100,6 +112,9 @@ function HomePage({ members, error }: HomePageProps) {
               ]
             : null}
         </StyledTabs>
+        <Button onClick={() => changeFilterHandler("currentlyLive")}>
+          Click
+        </Button>
         {members && !error ? (
           [
             <TabPanel value={page} index={0} key={"currentlyLive"}>
@@ -115,6 +130,23 @@ function HomePage({ members, error }: HomePageProps) {
                   )}
               />
             </TabPanel>,
+            <div className={classes.cardContainer} key={"rest"}>
+              {Object.values(members)
+                .flatMap((x) => x)
+                .filter((x: HoloMember) =>
+                  filter === "currentlyLive"
+                    ? x.live
+                    : filter === "all"
+                    ? true
+                    : x.generation_name === filter
+                )
+                .map((detail, idx) => (
+                  <Card
+                    key={detail.id + detail.generation_name}
+                    data={detail}
+                  />
+                ))}
+            </div>,
             Object.values(members).map((detail, idx) => (
               <TabPanel value={page} index={idx + 1} key={idx}>
                 <TabItem value={detail} />
