@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import theme from "../theme";
 import Head from "next/head";
+import { StylesProvider } from "@material-ui/styles";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -22,11 +23,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <StylesProvider injectFirst>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </StylesProvider>
       </ThemeProvider>
     </>
   );
