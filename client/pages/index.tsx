@@ -115,23 +115,6 @@ function HomePage({ members, error }: HomePageProps) {
             </Button>
           ))}
         </div>
-        <StyledTabs
-          value={page}
-          onChange={handlePageChange}
-          aria-label="hololive tabs"
-        >
-          {members
-            ? [
-                <StyledTab key="currentlyLive" label="Currently Live" />,
-                Object.keys(members).map((gen) => (
-                  <StyledTab key={gen} label={gen} />
-                )),
-              ]
-            : null}
-        </StyledTabs>
-        <Button onClick={() => changeFilterHandler("currentlyLive")}>
-          Click
-        </Button>
         {members && !error ? (
           [
             <TabPanel value={page} index={0} key={"currentlyLive"}>
