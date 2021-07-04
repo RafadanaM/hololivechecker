@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Tab, Tabs } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { AxiosError } from "axios";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import React, { useState } from "react";
 import axios from "../axios/axios";
 import TabItem from "../components/TabItem";
@@ -128,11 +128,11 @@ function HomePage({ members, error }: HomePageProps) {
     </>
   );
 }
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const res = await axios.get("/hololive");
     const members: MembersResponse = res.data;
-    return { props: { members: members, error: null }, revalidate: 120 };
+    return { props: { members: members, error: null } };
   } catch (error) {
     console.log(error);
     let errorMsg: string | undefined = "";
