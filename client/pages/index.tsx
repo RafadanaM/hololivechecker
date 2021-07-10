@@ -1,4 +1,9 @@
-import { Button, CircularProgress, Divider } from "@material-ui/core";
+import {
+  Button,
+  ButtonBase,
+  CircularProgress,
+  Divider,
+} from "@material-ui/core";
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
@@ -44,10 +49,10 @@ function HomePage({ members, error }: HomePageProps) {
             </Button>
             {Object.keys(members).map((gen) => (
               <Button
-                key={gen}
                 variant="contained"
+                key={gen}
                 onClick={() => changeFilterHandler(gen)}
-                className={` ${classes.buttonBase} ${
+                className={`${classes.buttonBase} ${
                   filter === gen ? classes.buttonFilter : ""
                 }`}
               >
