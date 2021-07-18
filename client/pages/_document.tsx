@@ -12,6 +12,10 @@ export default class MyDocument extends Document {
           <title>Hololive Stream Checker </title>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <meta name="robots" content="index, follow" />
+          <meta
+            name="description"
+            content="Hololive checker, Check hololive members live stream activity on youtube!"
+          />
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -23,10 +27,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=optional"
           />
-          <meta
-            name="description"
-            content="Check whether hololive members are streaming on youtube!"
-          />
+
           <meta
             property="og:title"
             content="Check hololive members youtube live stream!"
