@@ -1,6 +1,8 @@
 import { HoloMember } from "../interface";
 import styles from "../styles/Card.module.css";
 import Image from "next/image";
+import React from "react";
+import { Box, Typography } from "@material-ui/core";
 
 interface CardProps {
   data: HoloMember;
@@ -76,21 +78,14 @@ function Card({ data }: CardProps) {
                   }
                 : {}
             }
-          >
-            {/* {data.live && data.live_video_thumbnail && data.live_video_url && (
-              <Image
-                src={data.live_video_thumbnail}
-                alt="live thumbnail"
-                layout="fill"
-                onClick={() => openLink(data.live_video_url)}
-              />
-            )} */}
-          </div>
-          <p className={styles.videoTitle}>
-            {data.live
-              ? data.live_video_title
-              : `${data.channel_name} is not streaming Σ(ＴωＴ)`}
-          </p>
+          />
+          <Box className={styles.videoTitleContainer} textOverflow="ellipsis">
+            <Typography className={styles.videoTitle}>
+              {data.live
+                ? data.live_video_title
+                : `${data.channel_name} is not streaming Σ(ＴωＴ)`}
+            </Typography>
+          </Box>
         </div>
       </div>
     </div>
