@@ -9,25 +9,15 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
 
-          <title>Hololive Stream Checker </title>
-          <meta name="theme-color" content={theme.palette.primary.main} />
-          <meta name="robots" content="index, follow" />
+          <title>Hololive Stream Checker</title>
           <meta
             name="description"
             content="Hololive checker, Check hololive members live stream activity on youtube!"
           />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          <meta
+            property="og:description"
+            content="Hololive checker, Check hololive members youtube live stream activity!"
           />
-
-          <link rel="apple-touch-icon" href="/logo192.png" />
-          <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=optional"
-          />
-
           <meta
             property="og:title"
             content="Check hololive members youtube live stream!"
@@ -40,6 +30,20 @@ export default class MyDocument extends Document {
           <meta
             name="google-site-verification"
             content="9XcYTUg-trV9a8kWUd-Z5iELoUndWJNKQdLy5YFUyGM"
+          />
+          <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta name="robots" content="index, follow" />
+
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+
+          <link rel="apple-touch-icon" href="/logo192.png" />
+          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=optional"
           />
 
           <meta charSet="utf-8" />
