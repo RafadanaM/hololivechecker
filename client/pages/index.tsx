@@ -9,6 +9,7 @@ import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 import axios from "../axios/axios";
 import Card from "../components/Card";
+import Cards from "../components/Cards";
 import { HoloMember, MembersResponse } from "../interface";
 import classes from "../styles/Index.module.css";
 
@@ -61,7 +62,19 @@ function HomePage({ members, error }: HomePageProps) {
             ))}
           </div>
           <Divider />
-          <div className={classes.cardContainer}>
+          <Cards
+            data={Object.values(members)
+              .flatMap((x) => x)
+              .filter((x: HoloMember) =>
+                filter === "currentlyLive"
+                  ? x.live
+                  : filter === "all"
+                  ? true
+                  : x.generation_name === filter
+              )}
+          />
+
+          {/* <div className={classes.cardContainer}>
             {Object.values(members)
               .flatMap((x) => x)
               .filter((x: HoloMember) =>
@@ -74,7 +87,7 @@ function HomePage({ members, error }: HomePageProps) {
               .map((detail) => (
                 <Card key={detail.id + detail.generation_name} data={detail} />
               ))}
-          </div>
+          </div> */}
         </>
       ) : (
         !error && <CircularProgress />

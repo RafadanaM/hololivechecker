@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   background-color: whitesmoke;
+  min-width: 0;
   flex: 1 0 400px;
   max-width: 450px;
   height: 350px;
@@ -33,6 +34,8 @@
 .cardContent {
   display: flex;
   flex: 1;
+  min-width: 0;
+  /* padding: 0px 4px 4px 4px; */
 }
 
 .cardContentLeft {
@@ -40,16 +43,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
+  padding: 4px;
   flex: 0 0 35%;
 }
 
 .cardContentRight {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 4px;
   flex: 1;
 }
 
@@ -110,10 +114,21 @@
   text-align: center;
 }
 
+.videoTitleContainer {
+  display: -webkit-box;
+  word-wrap: break-word;
+  width: 100%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .videoTitle {
   margin-top: 5px;
   font-size: 14px;
   font-weight: 500;
+  width: 100%;
   color: #4b4b4b;
 }
 
