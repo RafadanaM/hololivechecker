@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta
             name="google-site-verification"
-            content="WttWLQpui478HSNE4dKIm0eTsoBK8fQYiFSQdUcSbL4"
+            content="9XcYTUg-trV9a8kWUd-Z5iELoUndWJNKQdLy5YFUyGM"
           />
 
           <meta charSet="utf-8" />
