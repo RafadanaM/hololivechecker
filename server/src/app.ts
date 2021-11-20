@@ -36,12 +36,12 @@ export class App {
     });
   }
 
-  private initRouteNotFound() {
-    this.app.use(NotFoundMiddleware);
-  }
-
   private initErrorHandling() {
     this.app.use(errorMiddleware);
+  }
+
+  private initRouteNotFound() {
+    this.app.use(NotFoundMiddleware);
   }
 
   private initCron() {
