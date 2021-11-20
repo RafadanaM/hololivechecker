@@ -1,14 +1,14 @@
 export const getChannelData = (parsed: any, id: string) => {
   let live = false;
-  let live_video_thumbnail = undefined;
-  let live_video_title = undefined;
-  let live_video_url = undefined;
-  let thumbnail = undefined;
-  let subscribers = undefined;
-  let channel_name = undefined;
-  let channelUrl = undefined;
-  let avatar = undefined;
-  let watching = undefined;
+  let live_video_thumbnail: string | undefined = undefined;
+  let live_video_title: string | undefined = undefined;
+  let live_video_url: string | undefined = undefined;
+  let thumbnail: string | undefined = undefined;
+  let subscribers: string | undefined = undefined;
+  let channel_name: string | undefined = undefined;
+  let channelUrl: string | undefined = undefined;
+  let avatar: string | undefined = undefined;
+  let watching: string | undefined = undefined;
 
   /* GET LIVESTREAM DATA */
 
@@ -39,7 +39,7 @@ export const getChannelData = (parsed: any, id: string) => {
     channel_name,
     avatar,
     thumbnail,
-    subscribers: subscribers.split(" ")[0],
+    subscribers: subscribers?.split(" ")[0],
     live,
     live_video_thumbnail,
     live_video_title,
