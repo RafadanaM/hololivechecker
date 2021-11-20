@@ -12,7 +12,7 @@
     "db:generate-migrate": "npm run typeorm:cli -- migration:generate -n",
     "db:run-migrate": "npm run typeorm:cli -- migration:run",
     "db:revert-migrate": "npm run typeorm:cli -- migration:revert",
-	"prepare": "cd ../ && husky install ./ClientApp/.husky"
+    "prepare": "cd ../ && husky install ./ClientApp/.husky"
   },
   "keywords": [],
   "author": "",
