@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { createConnection } from "typeorm";
 import { App } from "./app";
+import { ChannelController } from "./channels/channel.controller";
 import config from "./ormconfig";
 import { validateEnv } from "./utils/validateEnv";
 
@@ -13,7 +14,7 @@ validateEnv();
     return error;
   }
 
-  const app = new App([], parseInt(process.env.port || "5000"));
+  const app = new App([new ChannelController()], parseInt(process.env.port || "5000"));
 
   app.listen();
 })();
