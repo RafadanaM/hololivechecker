@@ -9,7 +9,7 @@ const ormconfig: ConnectionOptions = {
   database: process.env.DB_NAME,
   entities: [__dirname + "/**/*.entity{.ts,.js}"],
   migrations: [__dirname + "/migrations/*{.ts,.js}"],
-  ssl: true,
+  ssl: { rejectUnauthorized: false },
   cli: {
     migrationsDir: "src/migrations",
   },
