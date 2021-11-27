@@ -1,6 +1,7 @@
 import express from "express";
 import cron from "node-cron";
 import morgan from "morgan";
+import cors from "cors";
 import { Controller } from "./interfaces/controller.interface";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { NotFoundMiddleware } from "./middlewares/notfound.middleware";
@@ -28,6 +29,13 @@ export class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(morgan(process.env.NODE_ENV === "dev" ? "dev" : "short"));
+    this.app.use(
+      cors({
+        origin: [process.env.ORIGIN || "localhost:3000"],
+        methods: ["GET"],
+        credentials: true,
+      })
+    );
   }
 
   private initControllers(controllers: Controller[]) {

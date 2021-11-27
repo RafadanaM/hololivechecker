@@ -14,9 +14,9 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
   console.log(members);
   console.log(error);
 
-  return <div className="">Test</div>;
+  return <div className="">{JSON.stringify(members)}</div>;
 };
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (_) => {
   try {
     const res = await axiosInstance.get("/hololive");
     const members: MembersResponse = res.data;
