@@ -17,7 +17,6 @@ export class App {
     this.port = port;
     this.channelService = new ChannelService();
 
-    this.initCron();
     this.initMiddlewares();
     this.initControllers(controllers);
     this.initErrorHandling();
