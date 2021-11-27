@@ -4,6 +4,10 @@ import Head from "next/head";
 import Image from "next/image";
 import { MembersResponse } from "../interfaces";
 import { AxiosError } from "axios";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Cards from "../components/Cards";
+import Container from "../components/Container";
 
 interface HomeProps {
   members: MembersResponse;
@@ -11,10 +15,16 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ members, error }) => {
-  console.log(members);
-  console.log(error);
+  return (
+    <>
+      <Navbar />
+      <Container>
+        <Cards channels={Object.values(members).flatMap((x) => x)} />
+      </Container>
 
-  return <div className="">{JSON.stringify(members)}</div>;
+      <Footer />
+    </>
+  );
 };
 export const getServerSideProps: GetServerSideProps = async (_) => {
   try {
