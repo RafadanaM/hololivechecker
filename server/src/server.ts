@@ -15,7 +15,7 @@ validateEnv();
     return error;
   }
 
-  const app = new App([new ChannelController()], parseInt(process.env.port || "5000"));
+  const app = new App([new ChannelController()], parseInt(process.env.PORT || "5000"));
 
   app.listen();
 })();
