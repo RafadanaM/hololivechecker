@@ -25,6 +25,11 @@ export const getChannelData = (parsed: any, id: string) => {
     const liveUrl = liveVideoContent?.navigationEndpoint?.commandMetadata?.webCommandMetadata?.url;
     live_video_url = liveUrl ? `https://www.youtube.com/${liveUrl}` : undefined;
     watching = liveVideoContent?.viewCountText?.runs[0]?.text;
+  } else {
+    live_video_thumbnail = undefined;
+    live_video_title = undefined;
+    live_video_url = undefined;
+    watching = undefined;
   }
 
   /* GET CHANNEL CONTENT(might need error handling) */
