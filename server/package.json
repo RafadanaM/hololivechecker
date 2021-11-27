@@ -11,8 +11,7 @@
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts",
     "db:generate-migrate": "npm run typeorm:cli -- migration:generate -n",
     "db:run-migrate": "npm run typeorm:cli -- migration:run",
-    "db:revert-migrate": "npm run typeorm:cli -- migration:revert",
-    "prepare": "cd ../ && husky install ./ClientApp/.husky"
+    "db:revert-migrate": "npm run typeorm:cli -- migration:revert"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +38,6 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "eslint": "^8.2.0",
-    "husky": "^4.3.8",
     "nodemon": "^2.0.15",
     "prettier": "2.4.1",
     "pretty-quick": "^3.1.1",

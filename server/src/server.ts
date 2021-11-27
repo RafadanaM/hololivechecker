@@ -9,6 +9,7 @@ validateEnv();
 (async () => {
   try {
     const connection = await createConnection(config);
+    connection.runMigrations();
   } catch (error) {
     console.log("Error connecting to the database", error);
     return error;
