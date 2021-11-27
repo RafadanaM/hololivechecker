@@ -2,6 +2,8 @@ import React from "react";
 import { HoloMember } from "../interfaces";
 import Image from "next/image";
 import fallback from "../public/fallback.png";
+import Live from "./Live";
+import SubscribeButton from "./SubscribeButton";
 interface ICard {
   channel: HoloMember;
 }
@@ -26,14 +28,7 @@ const Card = ({ channel }: ICard) => {
           layout="fill"
           objectFit="cover"
         />
-        <div className="filter brightness-50 grayscale absolute right-3 top-3 flex items-center bg-yt-red px-2 py-1 justify-evenly gap-1 font-bold rounded-md">
-          <div className="relative inline-flex rounded-full h-2 w-2 bg-white top-px">
-            {channel.live && (
-              <span className="animate-ping inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            )}
-          </div>
-          <span className="text-white">Live</span>
-        </div>
+        <Live isLive={channel.live} />
       </div>
       <div className="flex-1 flex">
         <div className="relative w-1/3 text-center">
@@ -47,21 +42,17 @@ const Card = ({ channel }: ICard) => {
           >
             <Image
               alt="profile"
+              width={80}
+              height={80}
+              className=" object-cover"
               src={channel.avatar || fallback}
-              layout="fill"
-              objectFit="cover"
             />
           </div>
-          <button
-            className=" block bg-yt-red py-1 rounded mt-12 w-14 mx-auto text-center text-sm text-white font-medium"
-            onClick={() =>
-              openInNewTab(
-                `https://www.youtube.com/channel/${channel.id_channel}?sub_confirmation=1`
-              )
-            }
-          >
-            {channel.subscribers}
-          </button>
+          <SubscribeButton
+            subscribers={channel.subscribers}
+            onClick={openInNewTab}
+            id_channel={channel.id_channel}
+          />
           <span className="text-xs px-2 font-medium">
             {channel.channel_name}
           </span>

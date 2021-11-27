@@ -1,13 +1,14 @@
 import type { GetServerSideProps, NextPage } from "next";
 import axiosInstance from "../axios/axiosInstance";
 import Head from "next/head";
-import Image from "next/image";
-import { MembersResponse } from "../interfaces";
+import { HoloMember, MembersResponse } from "../interfaces";
 import { AxiosError } from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Cards from "../components/Cards";
 import Container from "../components/Container";
+import FilterButtons from "../components/FilterButtons";
+import { useState } from "react";
 
 interface HomeProps {
   members: MembersResponse;
@@ -15,11 +16,25 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ members, error }) => {
+  const [filter, setFilter] = useState("Live");
   return (
     <>
       <Navbar />
       <Container>
-        <Cards channels={Object.values(members).flatMap((x) => x)} />
+        <FilterButtons members={members} clickHandler={setFilter} />
+        {error && <h1>An Error has Occured! with code of {error} </h1>}
+        {/* This filter thing is a mess, need to refactor */}
+        <Cards
+          channels={Object.values(members)
+            .flatMap((x) => x)
+            .filter((x: HoloMember) =>
+              filter === "Live"
+                ? x.live
+                : filter === "All"
+                ? true
+                : x.generation.generation_name === filter
+            )}
+        />
       </Container>
 
       <Footer />

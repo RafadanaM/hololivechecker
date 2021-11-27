@@ -10,6 +10,10 @@ export interface HoloMember {
   live_video_title: string | null;
   live_video_url: string | null;
   watching: string | null;
+  generation: Generation;
+}
+
+export interface Generation {
   id_generation: number;
   generation_name: string;
 }

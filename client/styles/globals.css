@@ -6,3 +6,10 @@
   --primary: 116, 207, 226;
   --yt-red: 204, 0, 0;
 }
+
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
