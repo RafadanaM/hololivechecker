@@ -20,7 +20,11 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
   return (
     <>
       <Container>
-        <FilterButtons members={members} clickHandler={setFilter} />
+        <FilterButtons
+          members={members}
+          clickHandler={setFilter}
+          currentFilter={filter}
+        />
         {error && <h1>An Error has Occured! with code of {error} </h1>}
         {/* This filter thing is a mess, need to refactor */}
         {members && (

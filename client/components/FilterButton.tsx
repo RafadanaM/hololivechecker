@@ -2,14 +2,19 @@ import React, { MouseEventHandler } from "react";
 
 interface IFIlterButton {
   title: string;
+  isActive: boolean;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const FilterButton = ({ title, onClick }: IFIlterButton) => {
+const FilterButton = ({ title, onClick, isActive }: IFIlterButton) => {
   return (
     <button
       onClick={onClick}
-      className="bg-primary text-white px-2.5 py-1 rounded font-medium transition-all duration-300 bg-opacity-100 hover:bg-opacity-75"
+      className={`px-2.5 py-1 rounded font-medium transition-color duration-300 text-xs md:text-base ${
+        isActive
+          ? "bg-primary text-white"
+          : "bg-white text-primary ring-1 ring-primary hover:bg-primary hover:text-white"
+      }`}
     >
       {title}
     </button>
