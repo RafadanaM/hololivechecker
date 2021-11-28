@@ -19,25 +19,24 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
   const [filter, setFilter] = useState("Live");
   return (
     <>
-      <Navbar />
       <Container>
         <FilterButtons members={members} clickHandler={setFilter} />
         {error && <h1>An Error has Occured! with code of {error} </h1>}
         {/* This filter thing is a mess, need to refactor */}
-        <Cards
-          channels={Object.values(members)
-            .flatMap((x) => x)
-            .filter((x: HoloMember) =>
-              filter === "Live"
-                ? x.live
-                : filter === "All"
-                ? true
-                : x.generation.generation_name === filter
-            )}
-        />
+        {members && (
+          <Cards
+            channels={Object.values(members)
+              .flatMap((x) => x)
+              .filter((x: HoloMember) =>
+                filter === "Live"
+                  ? x.live
+                  : filter === "All"
+                  ? true
+                  : x.generation.generation_name === filter
+              )}
+          />
+        )}
       </Container>
-
-      <Footer />
     </>
   );
 };
