@@ -69,6 +69,14 @@ const jpFifthGen = [
   "UCK9V2B22uJYu3N7eR_BT9QA",
 ];
 
+const jpSixthGen = [
+  "UCENwRMx5Yh42zWpzURebzTw",
+  "UCs9_O1tRPMQTHQ-N_L6FU2g",
+  "UC6eWCld0KwmyHFbAqK3V-Rw",
+  "UCIBY1ollUsauvVi4hW4cumw",
+  "UC_vMYWcDjmfdpH6r4TTn1MQ",
+];
+
 const idFirstGen = ["UCOyYb1c43VlX9rc_lT6NKQw", "UCP0BspO_AMEe3aQqqpo89Dg", "UCAoy6rzhSf4ydcYjJw3WoVg"];
 
 const idSecondGen = ["UCYz_5n-uDuChHtLo7My1HnQ", "UC727SQYUvx5pDDGQpTICNWg", "UChgTyjG-pdNvxxhdsXfHQ5Q"];
@@ -85,4 +93,5 @@ export const allGen = {
   "EN 1st Gen": [...enFirstGen],
   "ID 2nd Gen": [...idSecondGen],
   "EN 2nd Gen": [...enSecondGen],
+  "JP 6th Gen": [...jpSixthGen],
 };
