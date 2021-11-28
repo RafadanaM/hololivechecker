@@ -17,7 +17,7 @@ const Card = ({ channel }: ICard) => {
   return (
     <div
       className={` ${
-        channel.live ? "" : "filter brightness-75"
+        channel.live ? "" : "filter brightness-90"
       } flex flex-col h-60 shadow-lg rounded-md min-w-80 overflow-hidden border bg-gray-100 border-gray-300 transition-transform transform scale-100 sm:hover:scale-110`}
     >
       <div className="relative h-20 border-b border-gray-200">
