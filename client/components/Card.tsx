@@ -67,7 +67,7 @@ const Card = ({ channel }: ICard) => {
             }
           >
             <Image
-              alt="profile"
+              alt="video"
               src={channel.live_video_thumbnail || fallback}
               layout="fill"
               objectFit="cover"

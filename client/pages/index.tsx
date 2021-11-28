@@ -1,14 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
 import axiosInstance from "../axios/axiosInstance";
-import Head from "next/head";
 import { HoloMember, MembersResponse } from "../interfaces";
 import { AxiosError } from "axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import Cards from "../components/Cards";
 import Container from "../components/Container";
 import FilterButtons from "../components/FilterButtons";
 import { useState } from "react";
+import Dropdown from "../components/Dropdown";
 
 interface HomeProps {
   members: MembersResponse;
@@ -20,11 +18,19 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
   return (
     <>
       <Container>
-        <FilterButtons
+        <div className="hidden gap-2 flex-wrap md:flex">
+          <FilterButtons
+            members={members}
+            clickHandler={setFilter}
+            currentFilter={filter}
+          />
+        </div>
+        <Dropdown
           members={members}
           clickHandler={setFilter}
           currentFilter={filter}
         />
+
         {error && <h1>An Error has Occured! with code of {error} </h1>}
         {/* This filter thing is a mess, need to refactor */}
         {members && (

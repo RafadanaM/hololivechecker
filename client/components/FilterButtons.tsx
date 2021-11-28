@@ -14,9 +14,9 @@ const FilterButtons = ({
   currentFilter,
 }: IFilterButtons) => {
   return (
-    <div className="flex gap-2 flex-wrap">
+    <>
       <FilterButton
-        title="Currently Live"
+        title="Live"
         isActive={currentFilter === "Live"}
         onClick={() => clickHandler("Live")}
       />
@@ -33,7 +33,7 @@ const FilterButtons = ({
           onClick={() => clickHandler(gen)}
         />
       ))}
-    </div>
+    </>
   );
 };
 

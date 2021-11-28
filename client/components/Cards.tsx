@@ -1,5 +1,5 @@
 import React from "react";
-import { HoloMember, MembersResponse } from "../interfaces";
+import { HoloMember } from "../interfaces";
 import Card from "./Card";
 
 interface ICards {
