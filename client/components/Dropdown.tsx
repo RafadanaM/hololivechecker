@@ -9,6 +9,11 @@ interface IDropdown {
 }
 const Dropdown = ({ clickHandler, members, currentFilter }: IDropdown) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleClickItem = (gen: string): void => {
+    clickHandler(gen);
+    setIsOpen(false);
+  };
   return (
     <div className="relative text-primary w-28 text-sm ml-auto md:hidden z-40">
       <button
@@ -57,7 +62,7 @@ const Dropdown = ({ clickHandler, members, currentFilter }: IDropdown) => {
       >
         <FilterButtons
           members={members}
-          clickHandler={clickHandler}
+          clickHandler={handleClickItem}
           currentFilter={currentFilter}
         />
       </div>
