@@ -7,7 +7,7 @@ interface ILayout {
 }
 const Layout = ({ children }: ILayout) => {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <main>{children}</main>
       <Footer />

@@ -6,7 +6,7 @@ interface IContainer {
 
 const Container = ({ children }: IContainer) => {
   return (
-    <div className="w-full min-h-full md:w-11/12 mx-auto max-w-screen-2xl pt-5">
+    <div className="w-full min-h-full md:w-11/12 mx-auto max-w-screen-2xl pt-5 md:px-5">
       {children}
     </div>
   );
