@@ -17,7 +17,9 @@ export const getChannelData = (parsed: any, id: string) => {
       ?.itemSectionRenderer?.contents[0]?.channelFeaturedContentRenderer;
 
   /* CHECK IF CHANNEL IS LIVE*/
-  if (channelLive !== undefined) {
+  console.log(channelLive);
+  if (channelLive) {
+    console.log("LIVE")
     live = true;
     const liveVideoContent = channelLive?.items[0]?.videoRenderer;
     live_video_thumbnail = liveVideoContent?.thumbnail?.thumbnails[3]?.url;
@@ -51,5 +53,7 @@ export const getChannelData = (parsed: any, id: string) => {
     live_video_url,
     watching,
   };
+  
+  console.log(all)
   return all;
 };
