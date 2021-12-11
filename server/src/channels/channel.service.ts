@@ -14,7 +14,7 @@ export class ChannelService {
       channels.forEach(async (channel) => {
         const { data } = await api.get(channel.id_channel);
         const result = regex.exec(data);
-        console.log(channel)
+        console.log(channel);
         const finalData = result[1];
         const parsedData = JSON.parse(finalData);
         const channelData = getChannelData(parsedData, channel.id_channel);
