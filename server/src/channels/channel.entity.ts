@@ -3,7 +3,7 @@ import { Generation } from "../generations/generation.entity";
 @Entity()
 export class Channel {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id?: number;
 
   @Column()
   public id_channel: string;
