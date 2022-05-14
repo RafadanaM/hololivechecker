@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (_) => {
   try {
     const res = await axiosInstance.get("/hololive");
     const members: MembersResponse = res.data;
-    return { props: { members: members, error: null } };
+    return { props: { members, error: null } };
   } catch (error) {
     console.log(error);
     let errorMsg: string = "";
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (_) => {
       errorMsg = "Error";
     }
 
-    return { props: { members: null, error: errorMsg } };
+    return { props: { members: [], error: errorMsg } };
   }
 };
 

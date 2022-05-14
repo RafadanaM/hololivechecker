@@ -19,5 +19,5 @@ export interface Generation {
 }
 
 export interface MembersResponse {
-  [key: string]: HoloMember[];
+  [key: string]: HoloMember[] | [];
 }
