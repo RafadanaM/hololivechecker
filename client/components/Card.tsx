@@ -1,9 +1,10 @@
 import React from "react";
 import { HoloMember } from "../interfaces";
 import Image from "next/image";
-import fallback from "../public/fallback.png";
+
 import Live from "./Live";
 import SubscribeButton from "./SubscribeButton";
+import ImageWithFallback from "./ImageWithFallback";
 interface ICard {
   channel: HoloMember;
 }
@@ -21,10 +22,10 @@ const Card = ({ channel }: ICard) => {
       } flex flex-col h-60 shadow-lg rounded-md min-w-80 overflow-hidden border bg-gray-100 border-gray-300 transition-transform transform scale-100 sm:hover:scale-110`}
     >
       <div className="relative h-20 border-b border-gray-200">
-        <Image
+        <ImageWithFallback
           className="filter brightness-90"
           alt="thumbnail"
-          src={channel.thumbnail || fallback}
+          src={channel.thumbnail}
           layout="fill"
           objectFit="cover"
         />
@@ -40,12 +41,12 @@ const Card = ({ channel }: ICard) => {
               )
             }
           >
-            <Image
+            <ImageWithFallback
               alt="profile"
               width={80}
               height={80}
               className=" object-cover"
-              src={channel.avatar || fallback}
+              src={channel.avatar}
             />
           </div>
           <SubscribeButton
@@ -66,9 +67,9 @@ const Card = ({ channel }: ICard) => {
               openInNewTab(channel.live_video_url)
             }
           >
-            <Image
+            <ImageWithFallback
               alt="video"
-              src={channel.live_video_thumbnail || fallback}
+              src={channel.live_video_thumbnail}
               layout="fill"
               objectFit="cover"
             />
