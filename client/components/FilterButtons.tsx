@@ -1,18 +1,13 @@
 import React from "react";
-import { HoloMember, MembersResponse } from "../interfaces";
 import FilterButton from "./FilterButton";
+import { filters } from "../data/data";
 
 interface IFilterButtons {
-  members: MembersResponse;
   clickHandler: Function;
   currentFilter: string;
 }
 
-const FilterButtons = ({
-  members,
-  clickHandler,
-  currentFilter,
-}: IFilterButtons) => {
+const FilterButtons = ({ clickHandler, currentFilter }: IFilterButtons) => {
   return (
     <>
       <FilterButton
@@ -25,7 +20,7 @@ const FilterButtons = ({
         isActive={currentFilter === "All"}
         onClick={() => clickHandler("All")}
       />
-      {Object.keys(members).map((gen) => (
+      {filters.map((gen) => (
         <FilterButton
           key={gen}
           isActive={currentFilter === gen}

@@ -18,11 +18,10 @@ export class ChannelService {
           const finalData = result[1];
           const parsedData = JSON.parse(finalData);
           const channelData = getChannelData(parsedData, channel.id_channel);
-          await this.channelRepository.update({id: channel.id}, {...channelData});
+          await this.channelRepository.update({ id: channel.id }, { ...channelData });
         }
       });
     } catch (error) {
-      console.log("############################################");
       console.log(error);
       throw new Error(error);
     }

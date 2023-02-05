@@ -82,16 +82,16 @@ const idFirstGen = ["UCOyYb1c43VlX9rc_lT6NKQw", "UCP0BspO_AMEe3aQqqpo89Dg", "UCA
 const idSecondGen = ["UCYz_5n-uDuChHtLo7My1HnQ", "UC727SQYUvx5pDDGQpTICNWg", "UChgTyjG-pdNvxxhdsXfHQ5Q"];
 
 export const allGen = {
+  "JP Gamers": [...jpGamers],
   "JP 0th Gen": [...jpZeroGen],
   "JP 1st Gen": [...jpFirstGen],
   "JP 2nd Gen": [...jpSecondGen],
-  "JP Gamers": [...jpGamers],
   "JP 3rd Gen": [...jpThirdGen],
   "JP 4th Gen": [...jpFourthGen],
-  "ID 1st Gen": [...idFirstGen],
   "JP 5th Gen": [...jpFifthGen],
-  "EN 1st Gen": [...enFirstGen],
-  "ID 2nd Gen": [...idSecondGen],
-  "EN 2nd Gen": [...enSecondGen],
   "JP 6th Gen": [...jpSixthGen],
+  "ID 1st Gen": [...idFirstGen],
+  "ID 2nd Gen": [...idSecondGen],
+  "EN 1st Gen": [...enFirstGen],
+  "EN 2nd Gen": [...enSecondGen],
 };

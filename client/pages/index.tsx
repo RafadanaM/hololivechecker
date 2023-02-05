@@ -19,11 +19,7 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
     <>
       <Container>
         <div className="hidden gap-2 flex-wrap md:flex">
-          <FilterButtons
-            members={members}
-            clickHandler={setFilter}
-            currentFilter={filter}
-          />
+          <FilterButtons clickHandler={setFilter} currentFilter={filter} />
         </div>
         <Dropdown
           members={members}
