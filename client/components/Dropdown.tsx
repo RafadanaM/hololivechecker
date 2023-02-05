@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { MembersResponse } from "../interfaces";
 import FilterButtons from "./FilterButtons";
 
 interface IDropdown {
   clickHandler: Function;
-  members: MembersResponse;
   currentFilter: string;
 }
-const Dropdown = ({ clickHandler, members, currentFilter }: IDropdown) => {
+const Dropdown = ({ clickHandler, currentFilter }: IDropdown) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClickItem = (gen: string): void => {
@@ -61,7 +59,6 @@ const Dropdown = ({ clickHandler, members, currentFilter }: IDropdown) => {
         aria-labelledby="menu-button"
       >
         <FilterButtons
-          members={members}
           clickHandler={handleClickItem}
           currentFilter={currentFilter}
         />

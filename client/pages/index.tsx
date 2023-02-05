@@ -7,39 +7,47 @@ import Container from "../components/Container";
 import FilterButtons from "../components/FilterButtons";
 import { useState } from "react";
 import Dropdown from "../components/Dropdown";
+import Search from "../components/Search";
+import useDebounce from "../hooks/useDebounce";
 
 interface HomeProps {
-  members: MembersResponse;
+  members: HoloMember[];
   error: AxiosError;
 }
 
 const Home: NextPage<HomeProps> = ({ members, error }) => {
   const [filter, setFilter] = useState("Live");
+  const [search, setSearch] = useState("");
+  const { debouncedValue: debouncedSearch, updateDebouncedValue } =
+    useDebounce<string>(search.trim().toLowerCase());
+
   return (
     <>
       <Container>
+        <Search
+          value={search}
+          onButtonClick={() => updateDebouncedValue(search)}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div className="hidden gap-2 flex-wrap md:flex">
           <FilterButtons clickHandler={setFilter} currentFilter={filter} />
         </div>
-        <Dropdown
-          members={members}
-          clickHandler={setFilter}
-          currentFilter={filter}
-        />
+        <Dropdown clickHandler={setFilter} currentFilter={filter} />
 
         {error && <h1>An Error has Occured! with code of {error} </h1>}
         {/* This filter thing is a mess, need to refactor */}
         {members && (
           <Cards
-            channels={Object.values(members)
-              .flatMap((x) => x)
-              .filter((x: HoloMember) =>
-                filter === "Live"
+            isLive={filter === "Live"}
+            channels={members.filter(
+              (x: HoloMember) =>
+                x.channel_name.toLowerCase().includes(debouncedSearch) &&
+                (filter === "Live"
                   ? x.live
                   : filter === "All"
                   ? true
-                  : x.generation.generation_name === filter
-              )}
+                  : x.generation.generation_name === filter)
+            )}
           />
         )}
       </Container>
@@ -49,7 +57,8 @@ const Home: NextPage<HomeProps> = ({ members, error }) => {
 export const getServerSideProps: GetServerSideProps = async (_) => {
   try {
     const res = await axiosInstance.get("/hololive");
-    const members: MembersResponse = res.data;
+    const membersResponse: MembersResponse = res.data;
+    const members = Object.values(membersResponse).flat();
     return { props: { members, error: null } };
   } catch (error) {
     console.log(error);
